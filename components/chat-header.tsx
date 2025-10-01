@@ -9,15 +9,18 @@ import { Button } from "@/components/ui/button";
 import { PlusIcon, VercelIcon } from "./icons";
 import { useSidebar } from "./ui/sidebar";
 import { VisibilitySelector, type VisibilityType } from "./visibility-selector";
+import { WeatherFooter } from "./weather-footer";
 
 function PureChatHeader({
   chatId,
   selectedVisibilityType,
   isReadonly,
+  onWeatherClick,
 }: {
   chatId: string;
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
+  onWeatherClick?: () => void;
 }) {
   const router = useRouter();
   const { open } = useSidebar();
@@ -25,29 +28,37 @@ function PureChatHeader({
   const { width: windowWidth } = useWindowSize();
 
   return (
-    <header className="sticky top-0 flex items-center gap-2 bg-background px-2 py-1.5 md:px-2">
-      <SidebarToggle />
+    <header className="sticky top-0 bg-background">
+      <div className="flex items-center gap-2 px-2 py-1.5 md:px-2">
+        <SidebarToggle />
 
-      {(!open || windowWidth < 768) && (
-        <Button
-          className="order-2 ml-auto h-8 px-2 md:order-1 md:ml-0 md:h-fit md:px-2"
-          onClick={() => {
-            router.push("/");
-            router.refresh();
-          }}
-          variant="outline"
-        >
-          <PlusIcon />
-          <span className="md:sr-only">New Chat</span>
-        </Button>
-      )}
+        {(!open || windowWidth < 768) && (
+          <Button
+            className="order-2 ml-auto h-8 px-2 md:order-1 md:ml-0 md:h-fit md:px-2"
+            onClick={() => {
+              router.push("/");
+              router.refresh();
+            }}
+            variant="outline"
+          >
+            <PlusIcon />
+            <span className="md:sr-only">New Chat</span>
+          </Button>
+        )}
 
-      {!isReadonly && (
-        <VisibilitySelector
-          chatId={chatId}
-          className="order-1 md:order-2 md:ml-auto"
-          selectedVisibilityType={selectedVisibilityType}
-        />
+        {!isReadonly && (
+          <VisibilitySelector
+            chatId={chatId}
+            className="order-1 md:order-2 md:ml-auto"
+            selectedVisibilityType={selectedVisibilityType}
+          />
+        )}
+      </div>
+      
+      {!isReadonly && onWeatherClick && (
+        <div className="flex justify-end border-t px-2 py-2 md:px-2">
+          <WeatherFooter onWeatherClick={onWeatherClick} />
+        </div>
       )}
     </header>
   );
