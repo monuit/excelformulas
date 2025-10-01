@@ -70,6 +70,14 @@ export default function Page() {
             </Link>
             {" for free."}
           </p>
+          <p className="mt-2 text-center text-gray-600 text-sm dark:text-zinc-400">
+            <Link
+              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
+              href="/"
+            >
+              ← Back to Home
+            </Link>
+          </p>
         </AuthForm>
       </div>
     </div>
