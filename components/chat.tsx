@@ -158,20 +158,14 @@ export function Chat({
   const handleWeatherClick = () => {
     if (status === "streaming") return; // Don't send if already streaming
     
-    const weatherMessage: ChatMessage = {
-      id: generateUUID(),
-      role: "user",
+    sendMessage({
+      role: "user" as const,
       parts: [
         {
           type: "text",
           text: "Can you show me a detailed weather forecast for the rest of today based on my location?",
         },
       ],
-    };
-
-    sendMessage({
-      data: { selectedChatModel: currentModelId, selectedVisibilityType: visibilityType },
-      message: weatherMessage,
     });
   };
 
