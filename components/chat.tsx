@@ -163,7 +163,7 @@ export function Chat({
       parts: [
         {
           type: "text",
-          text: "Can you show me a detailed weather forecast for the rest of today based on my location?",
+          text: "Please get the weather forecast for my current location and show me the detailed hourly forecast for the rest of today, including temperature trends, sunrise/sunset times, and any weather conditions.",
         },
       ],
     });
@@ -190,34 +190,30 @@ export function Chat({
           votes={votes}
         />
 
-        <div className="sticky bottom-0 z-1 bg-background">
-          <div className="mx-auto flex w-full max-w-4xl items-center gap-2 px-2 pb-2 pt-2 md:px-4">
-            <div className="flex-1">
-              {!isReadonly && (
-                <MultimodalInput
-                  attachments={attachments}
-                  chatId={id}
-                  input={input}
-                  messages={messages}
-                  onModelChange={setCurrentModelId}
-                  selectedModelId={currentModelId}
-                  selectedVisibilityType={visibilityType}
-                  sendMessage={sendMessage}
-                  setAttachments={setAttachments}
-                  setInput={setInput}
-                  setMessages={setMessages}
-                  status={status}
-                  stop={stop}
-                  usage={usage}
-                />
-              )}
-            </div>
-            {!isReadonly && (
-              <div className="flex-shrink-0">
+        <div className="sticky bottom-0 z-1 mx-auto flex w-full max-w-4xl flex-col gap-2 border-t-0 bg-background px-2 pb-3 md:px-4 md:pb-4">
+          {!isReadonly && (
+            <>
+              <MultimodalInput
+                attachments={attachments}
+                chatId={id}
+                input={input}
+                messages={messages}
+                onModelChange={setCurrentModelId}
+                selectedModelId={currentModelId}
+                selectedVisibilityType={visibilityType}
+                sendMessage={sendMessage}
+                setAttachments={setAttachments}
+                setInput={setInput}
+                setMessages={setMessages}
+                status={status}
+                stop={stop}
+                usage={usage}
+              />
+              <div className="flex justify-end">
                 <WeatherFooter onWeatherClick={handleWeatherClick} />
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
 

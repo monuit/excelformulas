@@ -48,24 +48,22 @@ export function WeatherFooter({
 }) {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     const fetchWeather = async () => {
       try {
         const response = await fetch("/api/weather");
         const data = await response.json();
-        setWeather(data);
+        
+        // Only show if we have valid weather data
+        if (data && data.temperature !== null && !data.error) {
+          setWeather(data);
+          // Small delay to ensure smooth appearance
+          setTimeout(() => setIsVisible(true), 100);
+        }
       } catch (error) {
         console.error("Failed to fetch weather:", error);
-        setWeather({
-          latitude: null,
-          longitude: null,
-          city: "Unknown",
-          country: "Unknown",
-          temperature: null,
-          temperatureUnit: "°C",
-          error: "Failed to load",
-        });
       } finally {
         setLoading(false);
       }
@@ -74,17 +72,14 @@ export function WeatherFooter({
     fetchWeather();
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center gap-2 rounded-lg border bg-muted/50 px-3 py-2 text-muted-foreground text-xs">
-        <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-        <span>Loading weather...</span>
-      </div>
-    );
+  // Don't render anything while loading or if no valid weather data
+  if (loading || !weather?.temperature || weather?.error) {
+    return null;
   }
 
-  if (weather?.error || !weather?.temperature) {
-    return null; // Don't show if weather data unavailable
+  // Don't show until fully loaded and ready
+  if (!isVisible) {
+    return null;
   }
 
   const weatherEmoji = getWeatherEmoji(weather.weatherCode);
