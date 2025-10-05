@@ -1,21 +1,12 @@
 @import "tailwindcss";
 
-/* include utility classes in streamdown */
 @source '../node_modules/streamdown/dist/index.js';
-
-/* custom variant for setting dark mode programmatically */
 @custom-variant dark (&:is(.dark, .dark *));
 
-/* include plugins */
 @plugin "tailwindcss-animate";
 @plugin "@tailwindcss/typography";
 
-/* ============================================================================
-   ADALINE.AI INSPIRED DESIGN TOKENS
-   ============================================================================ */
-
 :root {
-  /* Light mode - Keep primary neutral, use accent for purple theme */
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
   --card: hsl(0 0% 100%);
@@ -35,16 +26,10 @@
   --border: hsl(240 5.9% 90%);
   --input: hsl(240 5.9% 90%);
   --ring: hsl(220 90% 56%);
-  --radius: 0.75rem;
-  
-  /* Adaline-inspired accent colors */
-  --purple-primary: hsl(262 80% 50%);
-  --purple-secondary: hsl(282 80% 50%);
-  --blue-accent: hsl(220 90% 56%);
+  --radius: 0.5rem;
 }
 
 .dark {
-  /* Dark mode - Keep primary blue, subtle purple accents */
   --background: hsl(240 10% 3.9%);
   --foreground: hsl(0 0% 98%);
   --card: hsl(240 8% 8%);
@@ -64,16 +49,7 @@
   --border: hsl(240 6% 20%);
   --input: hsl(240 6% 15%);
   --ring: hsl(220 90% 56%);
-  
-  /* Purple accent colors for custom use */
-  --purple-primary: hsl(262 90% 60%);
-  --purple-secondary: hsl(282 90% 60%);
-  --blue-accent: hsl(220 90% 60%);
 }
-
-/* ============================================================================
-   THEME CONFIGURATION
-   ============================================================================ */
 
 @theme {
   --font-sans: var(--font-geist);
@@ -82,7 +58,6 @@
   --radius-lg: var(--radius);
   --radius-md: calc(var(--radius) - 2px);
   --radius-sm: calc(var(--radius) - 4px);
-  
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -104,101 +79,60 @@
   --color-ring: var(--ring);
 }
 
-/* ============================================================================
-   BASE STYLES
-   ============================================================================ */
-
 @layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border);
+  }
+
   * {
     @apply border-border outline-ring/50;
   }
-  
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
   html {
     overflow-x: hidden;
-    scroll-behavior: smooth;
   }
   
   body {
-    @apply bg-background text-foreground antialiased;
     overflow-x: hidden;
-    position: relative;
-    min-height: 100vh;
-  }
-  
-  /* Subtle animated gradient background - reduced opacity */
-  body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: radial-gradient(circle at 20% 20%, hsla(262, 90%, 60%, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, hsla(282, 90%, 60%, 0.05) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, hsla(220, 90%, 60%, 0.03) 0%, transparent 70%);
-    animation: gradientShift 20s ease infinite;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
-  }
-  
-  @keyframes gradientShift {
-    0%, 100% {
-      opacity: 0.5;
-      transform: scale(1);
-    }
-    50% {
-      opacity: 0.3;
-      transform: scale(1.05);
-    }
-  }
-  
-  /* Very subtle grid pattern overlay */
-  body::after {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-image: 
-      linear-gradient(hsla(220, 80%, 55%, 0.015) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(220, 80%, 55%, 0.015) 1px, transparent 1px);
-    background-size: 50px 50px;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0.5;
   }
 }
 
-/* ============================================================================
-   ADALINE-INSPIRED UTILITY CLASSES
-   ============================================================================ */
+@utility text-balance {
+  text-wrap: balance;
+}
+
+@utility -webkit-overflow-scrolling-touch {
+  -webkit-overflow-scrolling: touch;
+}
+
+@utility touch-pan-y {
+  touch-action: pan-y;
+}
+
+@utility overscroll-behavior-contain {
+  overscroll-behavior: contain;
+}
 
 @layer base {
-  /* Glass-morphism effect */
   .glass {
-    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-xl;
+    @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-md;
   }
   
-  .glass-strong {
-    @apply rounded-2xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl;
-  }
-  
-  /* Gradient text effects - use purple accent */
   .gradient-text {
     @apply bg-clip-text text-transparent;
     background-image: linear-gradient(135deg, hsl(262 90% 55%) 0%, hsl(282 90% 55%) 100%);
   }
   
-  .gradient-text-blue {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(220 90% 60%) 0%, hsl(262 90% 55%) 100%);
-  }
-  
-  /* Premium purple button with gradient */
   .btn-primary {
-    @apply relative rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+    @apply rounded-xl px-6 py-3 font-semibold text-white shadow-md transition-all hover:shadow-lg hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed;
     background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(282 83% 58%) 100%);
   }
   
@@ -206,80 +140,19 @@
     background: linear-gradient(135deg, hsl(262 88% 63%) 0%, hsl(282 88% 63%) 100%);
   }
   
-  /* Secondary glass button */
   .btn-secondary {
-    @apply glass px-6 py-3 font-semibold text-foreground transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+    @apply glass px-6 py-3 font-semibold text-foreground transition-all hover:bg-white/10 disabled:opacity-50 disabled:cursor-not-allowed;
   }
   
-  /* Card with hover effect - use accent color */
-  .card-hover {
-    @apply glass transition-all duration-300 hover:border-accent/30 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-1;
-  }
-  
-  /* Purple glow effect for premium elements */
-  .glow {
-    box-shadow: 0 0 20px hsla(262, 90%, 60%, 0.25), 0 0 40px hsla(262, 90%, 60%, 0.1);
-  }
-  
-  .glow-hover {
-    transition: all 0.3s ease;
-  }
-  
-  .glow-hover:hover {
-    box-shadow: 0 0 30px hsla(262, 90%, 60%, 0.35), 0 0 60px hsla(262, 90%, 60%, 0.15);
-  }
-  
-  /* Container utilities */
   .container-adaptive {
     @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
   }
   
-  /* Smooth transitions */
-  .transition-smooth {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  .glow {
+    box-shadow: 0 0 20px hsla(262, 90%, 60%, 0.2), 0 0 40px hsla(262, 90%, 60%, 0.08);
   }
 }
 
-/* ============================================================================
-   SCROLLBAR STYLING
-   ============================================================================ */
-
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  @apply rounded-full;
-  background: linear-gradient(180deg, hsl(262 80% 55%) 0%, hsl(282 80% 55%) 100%);
-  border: 2px solid transparent;
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(180deg, hsl(262 90% 65%) 0%, hsl(282 90% 65%) 100%);
-  background-clip: padding-box;
-}
-
-::-webkit-scrollbar-corner {
-  background: transparent;
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(262 80% 55%) transparent;
-}
-
-/* ============================================================================
-   COMPONENT-SPECIFIC STYLES
-   ============================================================================ */
-
-/* Skeleton loading */
 .skeleton {
   * {
     pointer-events: none !important;
@@ -299,12 +172,10 @@
   }
 }
 
-/* ProseMirror editor */
 .ProseMirror {
   outline: none;
 }
 
-/* CodeMirror editor */
 .cm-editor,
 .cm-gutters {
   @apply bg-background! dark:bg-zinc-900! outline-hidden! selection:bg-primary/20!;
@@ -337,14 +208,37 @@
   @apply rounded-l-sm!;
 }
 
-/* Suggestion highlighting */
 .suggestion-highlight {
   @apply bg-primary/20 hover:bg-primary/30 dark:text-foreground rounded px-1;
 }
 
-/* ============================================================================
-   ANIMATIONS
-   ============================================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
 
 @keyframes fadeIn {
   from {
@@ -368,43 +262,10 @@
   }
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
 .animate-fade-in {
   animation: fadeIn 0.5s ease-out;
 }
 
 .animate-slide-in {
   animation: slideIn 0.5s ease-out;
-}
-
-.animate-float {
-  animation: float 3s ease-in-out infinite;
-}
-
-/* ============================================================================
-   UTILITY OVERRIDES
-   ============================================================================ */
-
-@utility text-balance {
-  text-wrap: balance;
-}
-
-@utility -webkit-overflow-scrolling-touch {
-  -webkit-overflow-scrolling: touch;
-}
-
-@utility touch-pan-y {
-  touch-action: pan-y;
-}
-
-@utility overscroll-behavior-contain {
-  overscroll-behavior: contain;
 }
