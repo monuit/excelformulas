@@ -9,30 +9,43 @@ export default async function GeneratorsPage() {
   const hasPremium = session?.user ? await isPremiumUser(session.user.id) : false;
 
   return (
-    <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-      <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold text-foreground sm:text-5xl">
+    <div className="container-adaptive py-16 sm:py-20 lg:py-24 animate-fade-in">
+      {/* Header Section */}
+      <div className="mb-16 text-center">
+        <h1 className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
           <span className="gradient-text">Premium</span> Code Generators
         </h1>
-        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+        <p className="mx-auto max-w-3xl text-xl text-muted-foreground leading-relaxed">
           Generate VBA macros and SQL queries with AI. Unlock lifetime access with a $5+ Ko-fi donation!
         </p>
-        <div className="mt-6">
-          <Link href="/debug" className="btn-secondary inline-block">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link href="/debug" className="btn-secondary transition-smooth">
             Try Interactive Debuggers →
           </Link>
+          {!hasPremium && (
+            <a
+              href={process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/monuit"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
+              🎁 Unlock Premium
+            </a>
+          )}
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      {/* Generators Grid */}
+      <div className="grid gap-8 lg:grid-cols-2 animate-slide-in">
         <VBAGenerator isPremium={hasPremium} />
         <SQLGenerator isPremium={hasPremium} />
       </div>
 
+      {/* Premium Thank You Message */}
       {hasPremium && (
-        <div className="mt-8 rounded-2xl border border-green-500/30 bg-green-500/10 p-6 text-center">
-          <p className="text-lg font-semibold text-green-300">
-            ✨ Thank you for your support! You have premium access.
+        <div className="mt-12 glass-strong border-primary/30 p-8 text-center glow animate-fade-in">
+          <p className="text-xl font-semibold gradient-text">
+            ✨ Thank you for your support! You have premium access to all features.
           </p>
         </div>
       )}

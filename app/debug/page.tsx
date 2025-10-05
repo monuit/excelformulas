@@ -8,50 +8,108 @@ export default async function DebugPage() {
   const hasPremium = session?.user ? await isPremiumUser(session.user.id) : false;
 
   return (
-    <div className="relative z-10 mx-auto max-w-7xl px-6 py-20 sm:px-8 lg:px-12">
-      <div className="mb-12 text-center">
-        <h1 className="mb-4 text-4xl font-bold text-foreground sm:text-5xl">
+    <div className="container-adaptive py-16 sm:py-20 lg:py-24 animate-fade-in">
+      {/* Header Section */}
+      <div className="mb-16 text-center">
+        <h1 className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
           <span className="gradient-text">Interactive</span> Debugging Tools
         </h1>
-        <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
+        <p className="mx-auto max-w-3xl text-xl text-muted-foreground leading-relaxed">
           Chat with AI to debug and understand your VBA code and Excel formulas. Get instant explanations and fixes!
         </p>
+        <div className="mt-8">
+          {!hasPremium && (
+            <a
+              href={process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/monuit"}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-primary"
+            >
+              🎁 Unlock Debuggers
+            </a>
+          )}
+        </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-2">
+      {/* Debuggers Grid */}
+      <div className="grid gap-8 lg:grid-cols-2 animate-slide-in">
         <VBADebugger isPremium={hasPremium} />
         <FormulaDebugger isPremium={hasPremium} />
       </div>
 
+      {/* Premium Thank You Message */}
       {hasPremium && (
-        <div className="mt-8 rounded-2xl border border-green-500/30 bg-green-500/10 p-6 text-center">
-          <p className="text-lg font-semibold text-green-300">
+        <div className="mt-12 glass-strong border-primary/30 p-8 text-center glow animate-fade-in">
+          <p className="text-xl font-semibold gradient-text">
             ✨ Thank you for your support! You have full access to all debugging features.
           </p>
         </div>
       )}
 
-      <div className="mt-12 rounded-2xl border border-border bg-card p-8">
-        <h2 className="mb-6 text-2xl font-bold text-foreground">How to Use the Debuggers</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          <div className="space-y-3">
-            <h3 className="font-semibold text-purple-300">VBA Debugger</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Paste your VBA macro code</li>
-              <li>• Describe runtime or compile errors</li>
-              <li>• Ask for code explanations</li>
-              <li>• Request optimization suggestions</li>
-              <li>• Get step-by-step breakdowns</li>
+      {/* Usage Guide */}
+      <div className="mt-16 glass p-10 card-hover">
+        <h2 className="mb-8 text-3xl font-bold gradient-text-blue text-center">
+          How to Use the Debuggers
+        </h2>
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center">
+                <span className="text-2xl">🐛</span>
+              </div>
+              <h3 className="text-xl font-semibold text-foreground">VBA Debugger</h3>
+            </div>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Paste your VBA macro code</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Describe runtime or compile errors</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Ask for code explanations</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Request optimization suggestions</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Get step-by-step breakdowns</span>
+              </li>
             </ul>
           </div>
-          <div className="space-y-3">
-            <h3 className="font-semibold text-purple-300">Formula Debugger</h3>
-            <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>• Paste formulas with errors</li>
-              <li>• Get help with #REF!, #VALUE! errors</li>
-              <li>• Understand complex nested formulas</li>
-              <li>• Learn about function alternatives</li>
-              <li>• Optimize slow-running formulas</li>
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+                <span className="text-2xl">⚠️</span>
+              </div>
+              <h3 className="text-xl font-semibold text-foreground">Formula Debugger</h3>
+            </div>
+            <ul className="space-y-3 text-muted-foreground">
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Paste formulas with errors</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Get help with #REF!, #VALUE! errors</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Understand complex nested formulas</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Learn about function alternatives</span>
+              </li>
+              <li className="flex items-start gap-3">
+                <span className="text-primary">▸</span>
+                <span>Optimize slow-running formulas</span>
+              </li>
             </ul>
           </div>
         </div>
