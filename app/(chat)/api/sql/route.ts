@@ -2,18 +2,22 @@ import { streamText } from "ai";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { auth } from "@/app/(auth)/auth";
+import { selectModelByComplexity } from "@/lib/ai/model-selector";
 import { myProvider } from "@/lib/ai/providers";
 import { isPremiumUser } from "@/lib/db/queries";
-import { selectModelByComplexity } from "@/lib/ai/model-selector";
 
 export const maxDuration = 30;
 
 const requestSchema = z.object({
   prompt: z.string().min(1).max(4000),
-  dialect: z.enum(["mysql", "postgresql", "sqlserver", "sqlite"]).default("mysql"),
+  dialect: z
+    .enum(["mysql", "postgresql", "sqlserver", "sqlite"])
+    .default("mysql"),
 });
 
-const sqlSystemPrompt = (dialect: string) => `You are an expert SQL developer specializing in ${dialect}.
+const sqlSystemPrompt = (
+  dialect: string
+) => `You are an expert SQL developer specializing in ${dialect}.
 
 Your task is to:
 1. Generate optimized, well-formatted SQL queries
@@ -46,7 +50,8 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         error: "Premium feature. Support us on Ko-fi to unlock SQL generation!",
-        upgradeUrl: process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/yourpage",
+        upgradeUrl:
+          process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/yourpage",
       },
       { status: 403 }
     );
@@ -68,7 +73,7 @@ export async function POST(request: Request) {
   try {
     // Select model based on prompt complexity
     const selectedModel = selectModelByComplexity(prompt);
-    
+
     const response = streamText({
       model: myProvider.languageModel(selectedModel) as any,
       messages: [

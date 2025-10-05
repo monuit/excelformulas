@@ -177,7 +177,9 @@ export const payment = pgTable("Payment", {
   userId: uuid("userId")
     .notNull()
     .references(() => user.id),
-  kofiTransactionId: varchar("kofiTransactionId", { length: 255 }).notNull().unique(),
+  kofiTransactionId: varchar("kofiTransactionId", { length: 255 })
+    .notNull()
+    .unique(),
   messageId: varchar("messageId", { length: 255 }).notNull().unique(),
   type: varchar("type", { length: 50 }).notNull(),
   amount: varchar("amount", { length: 20 }).notNull(),
@@ -185,8 +187,12 @@ export const payment = pgTable("Payment", {
   fromName: varchar("fromName", { length: 255 }),
   email: varchar("email", { length: 255 }),
   message: text("message"),
-  isSubscriptionPayment: boolean("isSubscriptionPayment").notNull().default(false),
-  isFirstSubscriptionPayment: boolean("isFirstSubscriptionPayment").notNull().default(false),
+  isSubscriptionPayment: boolean("isSubscriptionPayment")
+    .notNull()
+    .default(false),
+  isFirstSubscriptionPayment: boolean("isFirstSubscriptionPayment")
+    .notNull()
+    .default(false),
   tierName: varchar("tierName", { length: 100 }),
   url: text("url"),
   rawData: jsonb("rawData"),

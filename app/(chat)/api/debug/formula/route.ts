@@ -7,12 +7,12 @@ import {
 } from "ai";
 import { z } from "zod";
 import { auth } from "@/app/(auth)/auth";
-import { myProvider } from "@/lib/ai/providers";
-import { isPremiumUser } from "@/lib/db/queries";
-import { isProductionEnvironment } from "@/lib/constants";
-import { generateUUID } from "@/lib/utils";
-import type { ChatMessage } from "@/lib/types";
 import { selectModelByComplexity } from "@/lib/ai/model-selector";
+import { myProvider } from "@/lib/ai/providers";
+import { isProductionEnvironment } from "@/lib/constants";
+import { isPremiumUser } from "@/lib/db/queries";
+import type { ChatMessage } from "@/lib/types";
+import { generateUUID } from "@/lib/utils";
 
 export const maxDuration = 60;
 
@@ -53,8 +53,10 @@ export async function POST(request: Request) {
   if (!hasPremium) {
     return new Response(
       JSON.stringify({
-        error: "Premium feature. Support us on Ko-fi to unlock formula debugging!",
-        upgradeUrl: process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/yourpage",
+        error:
+          "Premium feature. Support us on Ko-fi to unlock formula debugging!",
+        upgradeUrl:
+          process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/yourpage",
       }),
       { status: 403, headers: { "Content-Type": "application/json" } }
     );
@@ -66,10 +68,10 @@ export async function POST(request: Request) {
     const json = await request.json();
     requestBody = postRequestBodySchema.parse(json);
   } catch {
-    return new Response(
-      JSON.stringify({ error: "Invalid request payload." }),
-      { status: 400, headers: { "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Invalid request payload." }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
   }
 
   const { messages } = requestBody;
@@ -78,13 +80,18 @@ export async function POST(request: Request) {
   const stream = createUIMessageStream({
     execute: async ({ writer }) => {
       // Get last user message for complexity analysis
-      const lastUserMessage = messages.filter((m: any) => m.role === 'user').pop();
-      const userInput = lastUserMessage?.parts?.find((p: any) => p.type === 'text')?.text || '';
+      const lastUserMessage = messages
+        .filter((m: any) => m.role === "user")
+        .pop();
+      const userInput =
+        lastUserMessage?.parts?.find((p: any) => p.type === "text")?.text || "";
       const selectedModel = selectModelByComplexity(userInput);
-      
+
       const result = streamText({
         model: myProvider.languageModel(selectedModel) as any,
-        system: formulaDebugSystemPrompt + (city && country ? `\n\nUser Location: ${city}, ${country}` : ""),
+        system:
+          formulaDebugSystemPrompt +
+          (city && country ? `\n\nUser Location: ${city}, ${country}` : ""),
         messages: convertToModelMessages(messages),
         experimental_telemetry: {
           isEnabled: isProductionEnvironment,

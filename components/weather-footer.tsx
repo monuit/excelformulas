@@ -16,7 +16,7 @@ type WeatherData = {
 
 const getWeatherDescription = (code: number | undefined): string => {
   if (!code) return "";
-  
+
   // WMO Weather interpretation codes
   if (code === 0) return "Clear";
   if (code <= 3) return "Partly Cloudy";
@@ -30,7 +30,7 @@ const getWeatherDescription = (code: number | undefined): string => {
 
 const getWeatherEmoji = (code: number | undefined): string => {
   if (!code) return "🌡️";
-  
+
   if (code === 0) return "☀️";
   if (code <= 3) return "⛅";
   if (code <= 48) return "🌫️";
@@ -55,7 +55,7 @@ export function WeatherFooter({
       try {
         const response = await fetch("/api/weather");
         const data = await response.json();
-        
+
         // Only show if we have valid weather data
         if (data && data.temperature !== null && !data.error) {
           setWeather(data);
@@ -106,7 +106,9 @@ export function WeatherFooter({
         </div>
         <div className="text-muted-foreground text-xs">
           {weather.city}
-          {weather.city !== "Unknown" && weather.country && `, ${weather.country}`}
+          {weather.city !== "Unknown" &&
+            weather.country &&
+            `, ${weather.country}`}
         </div>
       </div>
       <div className="ml-2 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
@@ -118,11 +120,7 @@ export function WeatherFooter({
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M9 5l7 7-7 7"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
+          <path d="M9 5l7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
     </button>

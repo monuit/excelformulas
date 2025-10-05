@@ -1,13 +1,14 @@
 "use client";
 
+import { BugIcon, CodeIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
 import { useWindowSize } from "usehooks-ts";
+import { KofiButton } from "@/components/kofi-button";
 import { SidebarToggle } from "@/components/sidebar-toggle";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { PlusIcon, VercelIcon } from "./icons";
+import { Button } from "@/components/ui/button";
 import { useSidebar } from "./ui/sidebar";
 import { VisibilitySelector, type VisibilityType } from "./visibility-selector";
 
@@ -26,7 +27,7 @@ function PureChatHeader({
   const { width: windowWidth } = useWindowSize();
 
   return (
-    <header className="sticky top-0 bg-background border-b z-10">
+    <header className="sticky top-0 z-10 border-b bg-background">
       <div className="flex items-center gap-2 px-4 py-3 md:px-6">
         <SidebarToggle />
 
@@ -34,18 +35,31 @@ function PureChatHeader({
           <Button
             className="order-2 ml-auto h-9 px-3 md:order-1 md:ml-0"
             onClick={() => {
-              router.push("/");
+              router.push("/chat");
               router.refresh();
             }}
-            variant="outline"
             size="sm"
+            variant="outline"
           >
-            <PlusIcon />
+            <PlusIcon className="size-4" />
             <span className="md:sr-only">New Chat</span>
           </Button>
         )}
 
-        <div className="flex items-center gap-2 ml-auto">
+        <div className="ml-auto flex items-center gap-2">
+          <Link href="/generators">
+            <Button className="hidden md:flex" size="sm" variant="ghost">
+              <CodeIcon className="mr-2 size-4" />
+              Generators
+            </Button>
+          </Link>
+          <Link href="/debug">
+            <Button className="hidden md:flex" size="sm" variant="ghost">
+              <BugIcon className="mr-2 size-4" />
+              Debug
+            </Button>
+          </Link>
+          <KofiButton />
           {!isReadonly && (
             <VisibilitySelector
               chatId={chatId}

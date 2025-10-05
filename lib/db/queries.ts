@@ -25,16 +25,16 @@ import {
   type DBMessage,
   document,
   message,
+  type Payment,
+  type PremiumUser,
+  payment,
+  premiumUser,
   type Suggestion,
   stream,
   suggestion,
   type User,
   user,
   vote,
-  type Payment,
-  payment,
-  type PremiumUser,
-  premiumUser,
 } from "./schema";
 import { generateHashedPassword } from "./utils";
 
@@ -565,16 +565,23 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
   }
 }
 
-export async function createPayment(paymentData: Omit<Payment, "id" | "createdAt">): Promise<Payment> {
+export async function createPayment(
+  paymentData: Omit<Payment, "id" | "createdAt">
+): Promise<Payment> {
   try {
-    const [newPayment] = await db.insert(payment).values(paymentData).returning();
+    const [newPayment] = await db
+      .insert(payment)
+      .values(paymentData)
+      .returning();
     return newPayment;
   } catch (_error) {
     throw new ChatSDKError("bad_request:database", "Failed to create payment");
   }
 }
 
-export async function getPaymentByTransactionId(kofiTransactionId: string): Promise<Payment | undefined> {
+export async function getPaymentByTransactionId(
+  kofiTransactionId: string
+): Promise<Payment | undefined> {
   try {
     const [result] = await db
       .select()
@@ -604,7 +611,9 @@ export async function getPaymentsByUserId(userId: string): Promise<Payment[]> {
   }
 }
 
-export async function getPremiumUser(userId: string): Promise<PremiumUser | undefined> {
+export async function getPremiumUser(
+  userId: string
+): Promise<PremiumUser | undefined> {
   try {
     const [result] = await db
       .select()
@@ -635,8 +644,10 @@ export async function createOrUpdatePremiumUser(data: {
         .update(premiumUser)
         .set({
           isPremium: data.isPremium,
-          subscriptionActive: data.subscriptionActive ?? existing.subscriptionActive,
-          subscriptionExpiresAt: data.subscriptionExpiresAt ?? existing.subscriptionExpiresAt,
+          subscriptionActive:
+            data.subscriptionActive ?? existing.subscriptionActive,
+          subscriptionExpiresAt:
+            data.subscriptionExpiresAt ?? existing.subscriptionExpiresAt,
           tierName: data.tierName ?? existing.tierName,
           lifetimeAccess: data.lifetimeAccess ?? existing.lifetimeAccess,
           updatedAt: new Date(),
@@ -669,15 +680,15 @@ export async function createOrUpdatePremiumUser(data: {
 export async function isPremiumUser(userId: string): Promise<boolean> {
   try {
     const premium = await getPremiumUser(userId);
-    
+
     if (!premium) return false;
     if (premium.lifetimeAccess) return true;
     if (!premium.isPremium) return false;
-    
+
     if (premium.subscriptionActive && premium.subscriptionExpiresAt) {
       return new Date() < new Date(premium.subscriptionExpiresAt);
     }
-    
+
     return premium.isPremium;
   } catch (_error) {
     throw new ChatSDKError(

@@ -53,17 +53,21 @@ export default function Page() {
     <div className="flex min-h-dvh w-full items-center justify-center bg-background p-4">
       <div className="w-full max-w-md space-y-8">
         <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">
+          <h1 className="font-semibold text-2xl tracking-tight">
             Create an account
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-sm">
             Enter your email and password to get started
           </p>
         </div>
         <AuthForm action={handleSubmit} defaultEmail={email}>
-          <SubmitButton isSuccessful={isSuccessful}>Create account</SubmitButton>
+          <SubmitButton isSuccessful={isSuccessful}>
+            Create account
+          </SubmitButton>
           <div className="mt-4 text-center text-sm">
-            <span className="text-muted-foreground">Already have an account? </span>
+            <span className="text-muted-foreground">
+              Already have an account?{" "}
+            </span>
             <Link
               className="font-medium text-primary underline-offset-4 hover:underline"
               href="/login"
@@ -74,7 +78,7 @@ export default function Page() {
           <div className="mt-2 text-center text-sm">
             <Link
               className="text-muted-foreground underline-offset-4 hover:underline"
-              href="/"
+              href="/chat"
             >
               ← Back to home
             </Link>

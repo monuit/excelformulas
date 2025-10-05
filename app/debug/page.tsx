@@ -1,29 +1,34 @@
 import { auth } from "@/app/(auth)/auth";
-import { isPremiumUser } from "@/lib/db/queries";
-import { VBADebugger } from "@/components/debuggers/VBADebugger";
 import { FormulaDebugger } from "@/components/debuggers/FormulaDebugger";
+import { VBADebugger } from "@/components/debuggers/VBADebugger";
+import { isPremiumUser } from "@/lib/db/queries";
 
 export default async function DebugPage() {
   const session = await auth();
-  const hasPremium = session?.user ? await isPremiumUser(session.user.id) : false;
+  const hasPremium = session?.user
+    ? await isPremiumUser(session.user.id)
+    : false;
 
   return (
-    <div className="container-adaptive py-16 sm:py-20 lg:py-24 animate-fade-in">
+    <div className="container-adaptive animate-fade-in py-16 sm:py-20 lg:py-24">
       {/* Header Section */}
       <div className="mb-16 text-center">
-        <h1 className="mb-6 text-5xl font-bold tracking-tight sm:text-6xl lg:text-7xl">
+        <h1 className="mb-6 font-bold text-5xl tracking-tight sm:text-6xl lg:text-7xl">
           <span className="gradient-text">Interactive</span> Debugging Tools
         </h1>
-        <p className="mx-auto max-w-3xl text-xl text-muted-foreground leading-relaxed">
-          Chat with AI to debug and understand your VBA code and Excel formulas. Get instant explanations and fixes!
+        <p className="mx-auto max-w-3xl text-muted-foreground text-xl leading-relaxed">
+          Chat with AI to debug and understand your VBA code and Excel formulas.
+          Get instant explanations and fixes!
         </p>
         <div className="mt-8">
           {!hasPremium && (
             <a
-              href={process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/monuit"}
-              target="_blank"
-              rel="noopener noreferrer"
               className="btn-primary"
+              href={
+                process.env.NEXT_PUBLIC_KOFI_URL || "https://ko-fi.com/monuit"
+              }
+              rel="noopener noreferrer"
+              target="_blank"
             >
               🎁 Unlock Debuggers
             </a>
@@ -32,32 +37,35 @@ export default async function DebugPage() {
       </div>
 
       {/* Debuggers Grid */}
-      <div className="grid gap-8 lg:grid-cols-2 animate-slide-in">
+      <div className="grid animate-slide-in gap-8 lg:grid-cols-2">
         <VBADebugger isPremium={hasPremium} />
         <FormulaDebugger isPremium={hasPremium} />
       </div>
 
       {/* Premium Thank You Message */}
       {hasPremium && (
-        <div className="mt-12 glass-strong border-accent/30 p-8 text-center glow animate-fade-in">
-          <p className="text-xl font-semibold gradient-text">
-            ✨ Thank you for your support! You have full access to all debugging features.
+        <div className="glass-strong glow mt-12 animate-fade-in border-accent/30 p-8 text-center">
+          <p className="gradient-text font-semibold text-xl">
+            ✨ Thank you for your support! You have full access to all debugging
+            features.
           </p>
         </div>
       )}
 
       {/* Usage Guide */}
-      <div className="mt-16 glass p-10 card-hover">
-        <h2 className="mb-8 text-3xl font-bold gradient-text-blue text-center">
+      <div className="glass card-hover mt-16 p-10">
+        <h2 className="gradient-text-blue mb-8 text-center font-bold text-3xl">
           How to Use the Debuggers
         </h2>
         <div className="grid gap-8 md:grid-cols-2">
           <div className="space-y-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-orange-500/20 flex items-center justify-center">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/20">
                 <span className="text-2xl">🐛</span>
               </div>
-              <h3 className="text-xl font-semibold text-foreground">VBA Debugger</h3>
+              <h3 className="font-semibold text-foreground text-xl">
+                VBA Debugger
+              </h3>
             </div>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
@@ -83,11 +91,13 @@ export default async function DebugPage() {
             </ul>
           </div>
           <div className="space-y-4">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-12 h-12 rounded-xl bg-yellow-500/20 flex items-center justify-center">
+            <div className="mb-4 flex items-center gap-3">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-500/20">
                 <span className="text-2xl">⚠️</span>
               </div>
-              <h3 className="text-xl font-semibold text-foreground">Formula Debugger</h3>
+              <h3 className="font-semibold text-foreground text-xl">
+                Formula Debugger
+              </h3>
             </div>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">

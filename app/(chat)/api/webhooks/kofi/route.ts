@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
-import { createPayment, createOrUpdatePremiumUser, getUser } from "@/lib/db/queries";
+import {
+  createOrUpdatePremiumUser,
+  createPayment,
+  getUser,
+} from "@/lib/db/queries";
 
 export const maxDuration = 30;
 
@@ -47,7 +51,7 @@ export async function POST(request: Request) {
     }
 
     const users = await getUser(kofiData.email);
-    
+
     if (users.length === 0) {
       console.error("User not found for Ko-fi payment:", kofiData.email);
       return new Response("OK", { status: 200 });
@@ -72,8 +76,8 @@ export async function POST(request: Request) {
       rawData: kofiData,
     });
 
-    const amount = parseFloat(kofiData.amount);
-    
+    const amount = Number.parseFloat(kofiData.amount);
+
     if (kofiData.type === "Donation" && amount >= 5) {
       await createOrUpdatePremiumUser({
         userId: targetUser.id,

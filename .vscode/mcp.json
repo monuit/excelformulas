@@ -1,0 +1,88 @@
+{
+  "servers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"]
+    },
+    "docker-mcp": {
+      "type": "stdio",
+      "command": "C:\\Users\\boredbedouin\\.local\\bin\\uvx.exe",
+      "args": ["docker-mcp"]
+    },
+    "filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "C:\\"]
+    },
+    "fast-filesystem": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "fast-filesystem-mcp"],
+      "env": {
+        "ALLOWED_DIRECTORIES": "C:\\;D:\\personal\\mine\\coverlettergpt\\coverlettergpt-xo;D:\\personal\\mine\\ApplySmart"
+      }
+    },
+    "postgres": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-postgres",
+        "postgresql://localhost/mydb"
+      ]
+    },
+    "context7": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "github": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${input:github-pat}"
+      }
+    },
+    "fetch": {
+      "type": "stdio",
+      "command": "C:\\Users\\boredbedouin\\.local\\bin\\uvx.exe",
+      "args": ["mcp-server-fetch"]
+    },
+    "playwright": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    },
+    "stripe": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "@stripe/mcp", "--tools=all"],
+      "env": {
+        "STRIPE_SECRET_KEY": "${input:stripe-secret}"
+      }
+    },
+    "ssh-mcp": {
+      "type": "stdio",
+      "command": "node",
+      "args": ["C:\\Users\\boredbedouin\\ssh-mcp-server\\dist\\index.js"],
+      "env": {
+        "MACHINES_PATH": "C:\\Users\\boredbedouin\\ssh-mcp-config\\machines.json"
+      }
+    }
+  },
+  "inputs": [
+    {
+      "id": "github-pat",
+      "type": "promptString",
+      "description": "GitHub Personal Access Token",
+      "password": true
+    },
+    {
+      "id": "stripe-secret",
+      "type": "promptString",
+      "description": "Stripe secret key (test or live)",
+      "password": true
+    }
+  ]
+}

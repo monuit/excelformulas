@@ -1,16 +1,17 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
-import { ThemeProvider } from "@/components/theme-provider";
 import { KofiButton } from "@/components/kofi-button";
+import { ThemeProvider } from "@/components/theme-provider";
 
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://chat.vercel.ai"),
-  title: "Chat with Moe",
-  description: "Next.js chatbot template using the AI SDK.",
+  metadataBase: new URL("https://excelformula.xyz"),
+  title: "ExcelFormula.xyz - AI-Powered Excel Formula Generator",
+  description:
+    "Generate Excel formulas instantly with AI. Debug VBA code, create macros, and master Excel with our intelligent assistant. Free forever with premium features available.",
 };
 
 export const viewport = {
