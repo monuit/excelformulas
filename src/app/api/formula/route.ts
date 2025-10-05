@@ -89,7 +89,7 @@ export async function POST(request: Request) {
           content: cleanedPrompt,
         },
       ],
-      maxOutputTokens: selection.maxTokens,
+      maxTokens: selection.maxTokens,
     });
 
     return response.toAIStreamResponse({

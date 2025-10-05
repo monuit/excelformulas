@@ -5,12 +5,16 @@ const withMDX = createMDX({
   options: {
     remarkPlugins: [],
     rehypePlugins: [],
+    providerImportSource: "@/lib/mdx-components",
   },
 });
 
 const nextConfig: NextConfig = {
   experimental: {
     mdxRs: true,
+  },
+  turbopack: {
+    root: process.cwd(),
   },
   pageExtensions: ["ts", "tsx", "mdx"],
   poweredByHeader: false,

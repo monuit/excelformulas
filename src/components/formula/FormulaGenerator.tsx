@@ -21,7 +21,8 @@ export function FormulaGenerator() {
 
   const completionConfig = useCompletion({
     api: "/api/formula",
-    onFinish(_, { completion }) {
+    onFinish(_, completionText) {
+      const completion = typeof completionText === "string" ? completionText : "";
       if (completion) {
         track("formula_generated", {
           mode,
@@ -31,9 +32,7 @@ export function FormulaGenerator() {
     },
     onError(error) {
       setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "We couldn’t generate a formula right now. Please try again.",
+        error?.message ?? "We couldn’t generate a formula right now. Please try again.",
       );
     },
   });
@@ -108,7 +107,7 @@ export function FormulaGenerator() {
             </span>
             {(errorMessage || error) && (
               <span className="text-orange-300">
-                {errorMessage ?? "We couldn’t generate a formula right now."}
+                {errorMessage ?? error?.message ?? "We couldn’t generate a formula right now."}
               </span>
             )}
           </div>
