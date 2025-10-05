@@ -15,14 +15,14 @@
    ============================================================================ */
 
 :root {
-  /* Light mode - Clean whites with subtle purple accents */
+  /* Light mode - Keep primary neutral, use accent for purple theme */
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
   --card: hsl(0 0% 100%);
   --card-foreground: hsl(240 10% 3.9%);
   --popover: hsl(0 0% 100%);
   --popover-foreground: hsl(240 10% 3.9%);
-  --primary: hsl(262 80% 50%);
+  --primary: hsl(220 90% 56%);
   --primary-foreground: hsl(0 0% 100%);
   --secondary: hsl(240 4.8% 95.9%);
   --secondary-foreground: hsl(240 5.9% 10%);
@@ -34,24 +34,24 @@
   --destructive-foreground: hsl(0 0% 98%);
   --border: hsl(240 5.9% 90%);
   --input: hsl(240 5.9% 90%);
-  --ring: hsl(262 80% 50%);
+  --ring: hsl(220 90% 56%);
   --radius: 0.75rem;
   
-  /* Adaline-inspired gradients */
-  --gradient-primary: linear-gradient(135deg, hsl(262 80% 50%) 0%, hsl(282 80% 50%) 100%);
-  --gradient-secondary: linear-gradient(135deg, hsl(220 80% 50%) 0%, hsl(262 80% 50%) 100%);
-  --gradient-background: linear-gradient(180deg, hsl(240 10% 3.9%) 0%, hsl(250 30% 8%) 100%);
+  /* Adaline-inspired accent colors */
+  --purple-primary: hsl(262 80% 50%);
+  --purple-secondary: hsl(282 80% 50%);
+  --blue-accent: hsl(220 90% 56%);
 }
 
 .dark {
-  /* Dark mode - Deep purples with vibrant accents */
+  /* Dark mode - Keep primary blue, subtle purple accents */
   --background: hsl(240 10% 3.9%);
   --foreground: hsl(0 0% 98%);
   --card: hsl(240 8% 8%);
   --card-foreground: hsl(0 0% 98%);
   --popover: hsl(240 10% 6%);
   --popover-foreground: hsl(0 0% 98%);
-  --primary: hsl(262 80% 55%);
+  --primary: hsl(220 90% 56%);
   --primary-foreground: hsl(0 0% 100%);
   --secondary: hsl(240 6% 15%);
   --secondary-foreground: hsl(0 0% 98%);
@@ -63,12 +63,12 @@
   --destructive-foreground: hsl(0 0% 98%);
   --border: hsl(240 6% 20%);
   --input: hsl(240 6% 15%);
-  --ring: hsl(262 80% 55%);
+  --ring: hsl(220 90% 56%);
   
-  /* Enhanced dark mode gradients */
-  --gradient-primary: linear-gradient(135deg, hsl(262 90% 60%) 0%, hsl(282 90% 60%) 100%);
-  --gradient-secondary: linear-gradient(135deg, hsl(220 90% 60%) 0%, hsl(262 90% 60%) 100%);
-  --gradient-background: linear-gradient(180deg, hsl(240 10% 3.9%) 0%, hsl(250 40% 10%) 100%);
+  /* Purple accent colors for custom use */
+  --purple-primary: hsl(262 90% 60%);
+  --purple-secondary: hsl(282 90% 60%);
+  --blue-accent: hsl(220 90% 60%);
 }
 
 /* ============================================================================
@@ -125,7 +125,7 @@
     min-height: 100vh;
   }
   
-  /* Animated gradient background */
+  /* Subtle animated gradient background - reduced opacity */
   body::before {
     content: '';
     position: fixed;
@@ -133,26 +133,27 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 20% 20%, hsla(262, 90%, 60%, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, hsla(282, 90%, 60%, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, hsla(220, 90%, 60%, 0.1) 0%, transparent 70%);
-    animation: gradientShift 15s ease infinite;
+    background: radial-gradient(circle at 20% 20%, hsla(262, 90%, 60%, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, hsla(282, 90%, 60%, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, hsla(220, 90%, 60%, 0.03) 0%, transparent 70%);
+    animation: gradientShift 20s ease infinite;
     pointer-events: none;
     z-index: 0;
+    opacity: 0.5;
   }
   
   @keyframes gradientShift {
     0%, 100% {
-      opacity: 1;
+      opacity: 0.5;
       transform: scale(1);
     }
     50% {
-      opacity: 0.8;
-      transform: scale(1.1);
+      opacity: 0.3;
+      transform: scale(1.05);
     }
   }
   
-  /* Grid pattern overlay */
+  /* Very subtle grid pattern overlay */
   body::after {
     content: '';
     position: fixed;
@@ -161,17 +162,12 @@
     right: 0;
     bottom: 0;
     background-image: 
-      linear-gradient(hsla(262, 80%, 55%, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, hsla(262, 80%, 55%, 0.03) 1px, transparent 1px);
+      linear-gradient(hsla(220, 80%, 55%, 0.015) 1px, transparent 1px),
+      linear-gradient(90deg, hsla(220, 80%, 55%, 0.015) 1px, transparent 1px);
     background-size: 50px 50px;
     pointer-events: none;
     z-index: 0;
-  }
-  
-  /* Ensure content is above background */
-  body > * {
-    position: relative;
-    z-index: 1;
+    opacity: 0.5;
   }
 }
 
@@ -189,39 +185,25 @@
     @apply rounded-2xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl;
   }
   
-  /* Gradient text effects */
+  /* Gradient text effects - use purple accent */
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(262 90% 65%) 0%, hsl(282 90% 65%) 100%);
+    background-image: linear-gradient(135deg, hsl(262 90% 55%) 0%, hsl(282 90% 55%) 100%);
   }
   
   .gradient-text-blue {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(220 90% 65%) 0%, hsl(262 90% 65%) 100%);
+    background-image: linear-gradient(135deg, hsl(220 90% 60%) 0%, hsl(262 90% 55%) 100%);
   }
   
-  /* Primary button with gradient */
+  /* Premium purple button with gradient */
   .btn-primary {
-    @apply relative rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 overflow-hidden;
-    background: linear-gradient(135deg, hsl(262 90% 60%) 0%, hsl(282 90% 60%) 100%);
+    @apply relative rounded-xl px-6 py-3 font-semibold text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
+    background: linear-gradient(135deg, hsl(262 83% 58%) 0%, hsl(282 83% 58%) 100%);
   }
   
-  .btn-primary::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, hsl(262 90% 70%) 0%, hsl(282 90% 70%) 100%);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  
-  .btn-primary:hover::before {
-    opacity: 1;
-  }
-  
-  .btn-primary > * {
-    position: relative;
-    z-index: 1;
+  .btn-primary:hover {
+    background: linear-gradient(135deg, hsl(262 88% 63%) 0%, hsl(282 88% 63%) 100%);
   }
   
   /* Secondary glass button */
@@ -229,14 +211,14 @@
     @apply glass px-6 py-3 font-semibold text-foreground transition-all duration-300 hover:bg-white/10 hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100;
   }
   
-  /* Card with hover effect */
+  /* Card with hover effect - use accent color */
   .card-hover {
-    @apply glass transition-all duration-300 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10 hover:-translate-y-1;
+    @apply glass transition-all duration-300 hover:border-accent/30 hover:shadow-2xl hover:shadow-accent/10 hover:-translate-y-1;
   }
   
-  /* Glow effect */
+  /* Purple glow effect for premium elements */
   .glow {
-    box-shadow: 0 0 20px hsla(262, 90%, 60%, 0.3), 0 0 40px hsla(262, 90%, 60%, 0.1);
+    box-shadow: 0 0 20px hsla(262, 90%, 60%, 0.25), 0 0 40px hsla(262, 90%, 60%, 0.1);
   }
   
   .glow-hover {
@@ -244,7 +226,7 @@
   }
   
   .glow-hover:hover {
-    box-shadow: 0 0 30px hsla(262, 90%, 60%, 0.4), 0 0 60px hsla(262, 90%, 60%, 0.2);
+    box-shadow: 0 0 30px hsla(262, 90%, 60%, 0.35), 0 0 60px hsla(262, 90%, 60%, 0.15);
   }
   
   /* Container utilities */

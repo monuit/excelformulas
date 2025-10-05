@@ -43,7 +43,7 @@ export default async function GeneratorsPage() {
 
       {/* Premium Thank You Message */}
       {hasPremium && (
-        <div className="mt-12 glass-strong border-primary/30 p-8 text-center glow animate-fade-in">
+        <div className="mt-12 glass-strong border-accent/30 p-8 text-center glow animate-fade-in">
           <p className="text-xl font-semibold gradient-text">
             ✨ Thank you for your support! You have premium access to all features.
           </p>

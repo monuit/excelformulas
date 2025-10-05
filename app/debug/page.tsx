@@ -39,7 +39,7 @@ export default async function DebugPage() {
 
       {/* Premium Thank You Message */}
       {hasPremium && (
-        <div className="mt-12 glass-strong border-primary/30 p-8 text-center glow animate-fade-in">
+        <div className="mt-12 glass-strong border-accent/30 p-8 text-center glow animate-fade-in">
           <p className="text-xl font-semibold gradient-text">
             ✨ Thank you for your support! You have full access to all debugging features.
           </p>
@@ -61,23 +61,23 @@ export default async function DebugPage() {
             </div>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Paste your VBA macro code</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Describe runtime or compile errors</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Ask for code explanations</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Request optimization suggestions</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Get step-by-step breakdowns</span>
               </li>
             </ul>
@@ -91,23 +91,23 @@ export default async function DebugPage() {
             </div>
             <ul className="space-y-3 text-muted-foreground">
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Paste formulas with errors</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Get help with #REF!, #VALUE! errors</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Understand complex nested formulas</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Learn about function alternatives</span>
               </li>
               <li className="flex items-start gap-3">
-                <span className="text-primary">▸</span>
+                <span className="text-accent">▸</span>
                 <span>Optimize slow-running formulas</span>
               </li>
             </ul>
