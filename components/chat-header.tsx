@@ -10,18 +10,15 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { PlusIcon, VercelIcon } from "./icons";
 import { useSidebar } from "./ui/sidebar";
 import { VisibilitySelector, type VisibilityType } from "./visibility-selector";
-import { WeatherFooter } from "./weather-footer";
 
 function PureChatHeader({
   chatId,
   selectedVisibilityType,
   isReadonly,
-  onWeatherClick,
 }: {
   chatId: string;
   selectedVisibilityType: VisibilityType;
   isReadonly: boolean;
-  onWeatherClick?: () => void;
 }) {
   const router = useRouter();
   const { open } = useSidebar();
@@ -29,7 +26,7 @@ function PureChatHeader({
   const { width: windowWidth } = useWindowSize();
 
   return (
-    <header className="sticky top-0 bg-background border-b">
+    <header className="sticky top-0 bg-background border-b z-10">
       <div className="flex items-center gap-2 px-4 py-3 md:px-6">
         <SidebarToggle />
 
@@ -59,12 +56,6 @@ function PureChatHeader({
           <ThemeToggle />
         </div>
       </div>
-      
-      {!isReadonly && onWeatherClick && (
-        <div className="flex justify-end border-t px-2 py-2 md:px-2">
-          <WeatherFooter onWeatherClick={onWeatherClick} />
-        </div>
-      )}
     </header>
   );
 }

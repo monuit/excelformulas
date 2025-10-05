@@ -81,9 +81,9 @@ export default function RootLayout({
         >
           <Toaster position="top-center" />
           <SessionProvider>{children}</SessionProvider>
-          <footer className="fixed bottom-4 left-4 z-50">
+          <div className="fixed top-20 right-4 z-40 md:top-4">
             <KofiButton />
-          </footer>
+          </div>
         </ThemeProvider>
       </body>
     </html>

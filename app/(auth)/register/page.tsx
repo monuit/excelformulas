@@ -39,7 +39,7 @@ export default function Page() {
 
       setIsSuccessful(true);
       updateSession();
-      router.refresh();
+      router.push("/");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.status, router.refresh, updateSession]);
@@ -50,34 +50,35 @@ export default function Page() {
   };
 
   return (
-    <div className="flex h-dvh w-screen items-start justify-center bg-background pt-12 md:items-center md:pt-0">
-      <div className="flex w-full max-w-md flex-col gap-12 overflow-hidden rounded-2xl">
-        <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
-          <h3 className="font-semibold text-xl dark:text-zinc-50">Sign Up</h3>
-          <p className="text-gray-500 text-sm dark:text-zinc-400">
-            Create an account with your email and password
+    <div className="flex min-h-dvh w-full items-center justify-center bg-background p-4">
+      <div className="w-full max-w-md space-y-8">
+        <div className="flex flex-col space-y-2 text-center">
+          <h1 className="text-2xl font-semibold tracking-tight">
+            Create an account
+          </h1>
+          <p className="text-sm text-muted-foreground">
+            Enter your email and password to get started
           </p>
         </div>
         <AuthForm action={handleSubmit} defaultEmail={email}>
-          <SubmitButton isSuccessful={isSuccessful}>Sign Up</SubmitButton>
-          <p className="mt-4 text-center text-gray-600 text-sm dark:text-zinc-400">
-            {"Already have an account? "}
+          <SubmitButton isSuccessful={isSuccessful}>Create account</SubmitButton>
+          <div className="mt-4 text-center text-sm">
+            <span className="text-muted-foreground">Already have an account? </span>
             <Link
-              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
+              className="font-medium text-primary underline-offset-4 hover:underline"
               href="/login"
             >
               Sign in
             </Link>
-            {" instead."}
-          </p>
-          <p className="mt-2 text-center text-gray-600 text-sm dark:text-zinc-400">
+          </div>
+          <div className="mt-2 text-center text-sm">
             <Link
-              className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
+              className="text-muted-foreground underline-offset-4 hover:underline"
               href="/"
             >
-              ← Back to Home
+              ← Back to home
             </Link>
-          </p>
+          </div>
         </AuthForm>
       </div>
     </div>

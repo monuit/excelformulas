@@ -154,19 +154,7 @@ export function Chat({
     setMessages,
   });
 
-  const handleWeatherClick = () => {
-    if (status === "streaming") return; // Don't send if already streaming
-    
-    sendMessage({
-      role: "user" as const,
-      parts: [
-        {
-          type: "text",
-          text: "Please get the weather forecast for my current location and show me the detailed hourly forecast for the rest of today, including temperature trends, sunrise/sunset times, and any weather conditions.",
-        },
-      ],
-    });
-  };
+
 
   return (
     <>
@@ -174,7 +162,6 @@ export function Chat({
         <ChatHeader
           chatId={id}
           isReadonly={isReadonly}
-          onWeatherClick={handleWeatherClick}
           selectedVisibilityType={initialVisibilityType}
         />
 
