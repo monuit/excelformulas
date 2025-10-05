@@ -31,6 +31,10 @@ import {
   type User,
   user,
   vote,
+  type Payment,
+  payment,
+  type PremiumUser,
+  premiumUser,
 } from "./schema";
 import { generateHashedPassword } from "./utils";
 
@@ -557,6 +561,128 @@ export async function getStreamIdsByChatId({ chatId }: { chatId: string }) {
     throw new ChatSDKError(
       "bad_request:database",
       "Failed to get stream ids by chat id"
+    );
+  }
+}
+
+export async function createPayment(paymentData: Omit<Payment, "id" | "createdAt">): Promise<Payment> {
+  try {
+    const [newPayment] = await db.insert(payment).values(paymentData).returning();
+    return newPayment;
+  } catch (_error) {
+    throw new ChatSDKError("bad_request:database", "Failed to create payment");
+  }
+}
+
+export async function getPaymentByTransactionId(kofiTransactionId: string): Promise<Payment | undefined> {
+  try {
+    const [result] = await db
+      .select()
+      .from(payment)
+      .where(eq(payment.kofiTransactionId, kofiTransactionId));
+    return result;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get payment by transaction id"
+    );
+  }
+}
+
+export async function getPaymentsByUserId(userId: string): Promise<Payment[]> {
+  try {
+    return await db
+      .select()
+      .from(payment)
+      .where(eq(payment.userId, userId))
+      .orderBy(desc(payment.createdAt));
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get payments by user id"
+    );
+  }
+}
+
+export async function getPremiumUser(userId: string): Promise<PremiumUser | undefined> {
+  try {
+    const [result] = await db
+      .select()
+      .from(premiumUser)
+      .where(eq(premiumUser.userId, userId));
+    return result;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to get premium user"
+    );
+  }
+}
+
+export async function createOrUpdatePremiumUser(data: {
+  userId: string;
+  isPremium: boolean;
+  subscriptionActive?: boolean;
+  subscriptionExpiresAt?: Date | null;
+  tierName?: string | null;
+  lifetimeAccess?: boolean;
+}): Promise<PremiumUser> {
+  try {
+    const existing = await getPremiumUser(data.userId);
+
+    if (existing) {
+      const [updated] = await db
+        .update(premiumUser)
+        .set({
+          isPremium: data.isPremium,
+          subscriptionActive: data.subscriptionActive ?? existing.subscriptionActive,
+          subscriptionExpiresAt: data.subscriptionExpiresAt ?? existing.subscriptionExpiresAt,
+          tierName: data.tierName ?? existing.tierName,
+          lifetimeAccess: data.lifetimeAccess ?? existing.lifetimeAccess,
+          updatedAt: new Date(),
+        })
+        .where(eq(premiumUser.userId, data.userId))
+        .returning();
+      return updated;
+    }
+
+    const [created] = await db
+      .insert(premiumUser)
+      .values({
+        userId: data.userId,
+        isPremium: data.isPremium,
+        subscriptionActive: data.subscriptionActive ?? false,
+        subscriptionExpiresAt: data.subscriptionExpiresAt ?? null,
+        tierName: data.tierName ?? null,
+        lifetimeAccess: data.lifetimeAccess ?? false,
+      })
+      .returning();
+    return created;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to create or update premium user"
+    );
+  }
+}
+
+export async function isPremiumUser(userId: string): Promise<boolean> {
+  try {
+    const premium = await getPremiumUser(userId);
+    
+    if (!premium) return false;
+    if (premium.lifetimeAccess) return true;
+    if (!premium.isPremium) return false;
+    
+    if (premium.subscriptionActive && premium.subscriptionExpiresAt) {
+      return new Date() < new Date(premium.subscriptionExpiresAt);
+    }
+    
+    return premium.isPremium;
+  } catch (_error) {
+    throw new ChatSDKError(
+      "bad_request:database",
+      "Failed to check if user is premium"
     );
   }
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import { ThemeProvider } from "@/components/theme-provider";
+import { KofiButton } from "@/components/kofi-button";
 
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
@@ -80,6 +81,9 @@ export default function RootLayout({
         >
           <Toaster position="top-center" />
           <SessionProvider>{children}</SessionProvider>
+          <footer className="fixed bottom-4 left-4 z-50">
+            <KofiButton />
+          </footer>
         </ThemeProvider>
       </body>
     </html>

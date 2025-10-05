@@ -22,6 +22,7 @@ import { entitlementsByUserType } from "@/lib/ai/entitlements";
 import type { ChatModel } from "@/lib/ai/models";
 import { type RequestHints, systemPrompt } from "@/lib/ai/prompts";
 import { myProvider } from "@/lib/ai/providers";
+import { selectModelByComplexity } from "@/lib/ai/model-selector";
 import { createDocument } from "@/lib/ai/tools/create-document";
 import { getWeather } from "@/lib/ai/tools/get-weather";
 import { requestSuggestions } from "@/lib/ai/tools/request-suggestions";
@@ -172,11 +173,21 @@ export async function POST(request: Request) {
     await createStreamId({ streamId, chatId: id });
 
     let finalMergedUsage: AppUsage | undefined;
+    
+    // Intelligently select model based on message complexity
+    // Extract text from the last user message
+    const lastUserText = message.parts
+      .filter((part: any) => part.type === 'text')
+      .map((part: any) => part.text)
+      .join(' ');
+    
+    // If no model explicitly selected, use intelligent selection
+    const modelToUse = selectedChatModel || selectModelByComplexity(lastUserText);
 
     const stream = createUIMessageStream({
       execute: ({ writer: dataStream }) => {
         const result = streamText({
-          model: myProvider.languageModel(selectedChatModel),
+          model: myProvider.languageModel(modelToUse),
           system: systemPrompt({ selectedChatModel, requestHints }),
           messages: convertToModelMessages(uiMessages),
           stopWhen: stepCountIs(5),

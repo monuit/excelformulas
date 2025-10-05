@@ -171,3 +171,43 @@ export const stream = pgTable(
 );
 
 export type Stream = InferSelectModel<typeof stream>;
+
+export const payment = pgTable("Payment", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => user.id),
+  kofiTransactionId: varchar("kofiTransactionId", { length: 255 }).notNull().unique(),
+  messageId: varchar("messageId", { length: 255 }).notNull().unique(),
+  type: varchar("type", { length: 50 }).notNull(),
+  amount: varchar("amount", { length: 20 }).notNull(),
+  currency: varchar("currency", { length: 10 }).notNull(),
+  fromName: varchar("fromName", { length: 255 }),
+  email: varchar("email", { length: 255 }),
+  message: text("message"),
+  isSubscriptionPayment: boolean("isSubscriptionPayment").notNull().default(false),
+  isFirstSubscriptionPayment: boolean("isFirstSubscriptionPayment").notNull().default(false),
+  tierName: varchar("tierName", { length: 100 }),
+  url: text("url"),
+  rawData: jsonb("rawData"),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+});
+
+export type Payment = InferSelectModel<typeof payment>;
+
+export const premiumUser = pgTable("PremiumUser", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  userId: uuid("userId")
+    .notNull()
+    .references(() => user.id)
+    .unique(),
+  isPremium: boolean("isPremium").notNull().default(false),
+  subscriptionActive: boolean("subscriptionActive").notNull().default(false),
+  subscriptionExpiresAt: timestamp("subscriptionExpiresAt"),
+  tierName: varchar("tierName", { length: 100 }),
+  lifetimeAccess: boolean("lifetimeAccess").notNull().default(false),
+  activatedAt: timestamp("activatedAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+export type PremiumUser = InferSelectModel<typeof premiumUser>;

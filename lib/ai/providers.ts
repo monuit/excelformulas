@@ -20,11 +20,13 @@ export const myProvider = isTestEnvironment
           "chat-model-reasoning": reasoningModel,
           "title-model": titleModel,
           "artifact-model": artifactModel,
+          "gpt-4o-mini": chatModel,
         },
       });
     })()
   : customProvider({
       languageModels: {
+        // Grok for simple queries (default chat model)
         "chat-model": gateway.languageModel("xai/grok-2-vision-1212"),
         "chat-model-reasoning": wrapLanguageModel({
           model: gateway.languageModel("xai/grok-3-mini"),
@@ -32,5 +34,7 @@ export const myProvider = isTestEnvironment
         }),
         "title-model": gateway.languageModel("xai/grok-2-1212"),
         "artifact-model": gateway.languageModel("xai/grok-2-1212"),
+        // GPT-4o Mini for complex queries
+        "gpt-4o-mini": gateway.languageModel("openai/gpt-4o-mini"),
       },
     });
