@@ -1,0 +1,52 @@
+export const metadata = {
+  title: "XLOOKUP Tutorial",
+  description:
+    "Learn XLOOKUP with practical prompts, advanced examples, and Google Sheets equivalents.",
+};
+
+# XLOOKUP Tutorial
+
+XLOOKUP replaces VLOOKUP and INDEX/MATCH with a friendlier syntax. It supports exact, approximate, and reverse lookups, making it perfect for modern dashboards. Use these examples or paste your scenario into the [AI Excel Formula Generator](/#generator) for a custom output.
+
+## Basic structure
+
+```excel
+=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])
+```
+
+## Prompts to try
+
+1. Look up the latest renewal date for each customer ID using the `Renewals` table.
+2. Return the sales rep email by matching the domain from a lead’s email address.
+3. Build a reverse lookup that finds the manager name when their team member is selected.
+4. Combine XLOOKUP with `TEXTSPLIT` to map SKUs to product families.
+5. Use XLOOKUP with a wildcard to match partial invoice numbers.
+6. Wrap XLOOKUP with `IFNA` to display "Pending" when no match exists.
+7. Cascade multiple lookups with `LET` to fetch address, city, and phone number in one formula.
+8. Trigger multiple results by pairing XLOOKUP with `FILTER` or `TAKE`.
+
+## Advanced example
+
+```excel
+=LET(
+  selectedId, $B$2,
+  region, $C$2,
+  accountRow, XLOOKUP(selectedId, Accounts[Account ID], Accounts[#This Row]),
+  regionalTarget, XLOOKUP(region, Targets[Region], Targets[Target ARR], 0),
+  CHOOSE({1,2,3}, accountRow[Name], accountRow[Owner], regionalTarget)
+)
+```
+
+This pattern returns multiple fields at once. Replace `CHOOSE` with `VSTACK` in Sheets if you prefer vertical output.
+
+## Google Sheets note
+
+XLOOKUP is now available in Sheets, but for older workspaces the generator will fall back to `INDEX` + `MATCH` automatically when you toggle into Sheets mode.
+
+## Tips
+
+- Use structured references to keep formulas readable.
+- Combine with `FILTER` for multi-row outputs.
+- Wrap complex flows in `LAMBDA` to reuse across workbooks.
+
+Need more automation ideas? Explore the [text cleanup guide](/excel/text-cleanup-formulas) or [array formulas walk-through](/excel/array-formulas).

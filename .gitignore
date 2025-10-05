@@ -1,23 +1,43 @@
-# Ignore Python cache files
-__pycache__/
-*.pyc
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# Ignore Jupyter Notebook checkpoints
-.ipynb_checkpoints/
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# Ignore VS Code settings
-.vscode/
+# testing
+/coverage
 
-# Ignore environment files
-.env
-venv/
+# next.js
+/.next/
+/out/
 
-# Ignore OS generated files
+# production
+/build
+
+# misc
 .DS_Store
-Thumbs.db
+*.pem
 
-# Ignore log files
-*.log
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# Ignore node_modules (if using Node.js)
-node_modules/
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+!example.env
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts

@@ -1,0 +1,54 @@
+export const metadata = {
+  title: "Excel vs Google Sheets: Which Formulas Work Where",
+  description:
+    "Understand formula compatibility between Excel and Google Sheets, plus conversion tips using the AI Excel Formula Generator.",
+};
+
+# Excel vs Google Sheets: Which Formulas Work Where
+
+Migrating between Microsoft Excel and Google Sheets can be painful when formulas behave differently. This guide highlights the biggest compatibility gaps and how the **AI Excel Formula Generator** bridges them automatically.
+
+## Functions that work in both
+
+- SUMIFS, COUNTIFS, AVERAGEIFS
+- FILTER, SORT, UNIQUE
+- TEXTSPLIT, TEXTAFTER, TEXTBEFORE (Sheets added parity in late 2024)
+- XLOOKUP and XMATCH (rolled out to Google Sheets in 2025)
+
+## Excel-only favorites
+
+- LAMBDA and custom helper functions (Sheets alternative: Apps Script)
+- Power Query transformations
+- Advanced data types (Stocks, Geography)
+
+## Google Sheets-only features
+
+- ARRAYFORMULA for auto-expanding calculations
+- IMPORTRANGE, IMPORTXML, IMPORTDATA
+- GOOGLEFINANCE and connected data sources
+
+## Conversion cheat sheet
+
+| Requirement | Excel approach | Google Sheets translation |
+| --- | --- | --- |
+| Spill-safe running total | `LET`, `SCAN`, `DROP` | `SCAN` (Sheets now supports) |
+| Combine text cleanup + lookup | `TEXTSPLIT` + `BYROW` | Same formula, but wrap with `ARRAYFORMULA` |
+| Build hyperlink previews | `IMAGE`, `TEXTAFTER`, `HYPERLINK` | Same, but ensure https URIs |
+
+When you toggle the generator to **Sheets mode**, it automatically swaps functions or adds ARRAYFORMULA wrappers where appropriate.
+
+## Prompt ideas
+
+1. "Convert this Excel LET formula into a Sheets-compatible ARRAYFORMULA that yields the same result." 
+2. "Suggest an alternative to LAMBDA for Google Sheets to reuse this transformation logic." 
+3. "Translate an IMPORTRANGE + FILTER combo into an Excel-friendly approach." 
+
+Drop any of these into the [Excel AI tool](/#generator); it will return both the formula and explanation tailored to the selected platform.
+
+## Documentation checklist
+
+- Note which workbook version supports dynamic arrays.
+- Document assumptions (e.g., `A:A` ranges vs structured references).
+- Include a fallback path when users copy files between Excel and Sheets.
+
+Consistent documentation keeps teams aligned, and our AI explanations make that documentation effortless.

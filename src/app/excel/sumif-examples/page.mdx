@@ -1,0 +1,62 @@
+export const metadata = {
+  title: "SUMIF Examples for Excel",
+  description:
+    "Master SUMIF and SUMIFS with ready-to-use prompts and formulas for Excel and Google Sheets.",
+};
+
+# SUMIF Examples for Excel
+
+SUMIF and SUMIFS remain staples for aggregating data with conditions. Use these examples to speed up reporting, or drop the prompts into the [AI Excel Formula Generator](/#generator) for tailored variants.
+
+## Quick reference
+
+- **SUMIF** handles a single condition.
+- **SUMIFS** supports multiple criteria.
+- Combine with **FILTER** or **LET** for dynamic dashboards.
+
+## Prompts to try
+
+1. Sum `Sales[Amount]` when `Sales[Region]` matches the region selected in cell `B2`.
+2. Add transactions in column `F` where `Category` is "Software" and `ClosedDate` is this quarter.
+3. Return total hours from column `H` when the consultant matches the dropdown in `D4` and `Status` equals "Billable".
+4. Calculate total marketing spend for campaigns tagged "Paid Search" and launched in the last 30 days.
+5. Sum ARR by account where `Stage` is "Closed Won" and `Owner` equals the name in `G2`.
+6. Aggregate donations where the `City` is "Austin" and the amount exceeds $500.
+7. Combine `SUMIFS` with `EOMONTH` to sum invoices from the previous month automatically.
+8. Use `SUMPRODUCT` as a fallback when you need case-insensitive matching.
+
+Paste any prompt into the generator, toggle Excel or Sheets mode, and copy the resulting formula + explanation.
+
+## Advanced pattern
+
+```excel
+=LET(
+  region, $B$2,
+  selectedStage, $D$2,
+  total,
+    SUMIFS(
+      Pipeline[Amount],
+      Pipeline[Region], region,
+      Pipeline[Stage], selectedStage,
+      Pipeline[CloseDate], ">=" & EOMONTH(TODAY(), -1) + 1,
+      Pipeline[CloseDate], "<=" & EOMONTH(TODAY(), 0)
+    ),
+  total
+)
+```
+
+## Optimization tips
+
+- Use structured references (`Table[Column]`) to avoid absolute ranges.
+- Keep criteria in helper cells for easier scenario planning.
+- Combine SUMIFS with FILTER to show detailed rows alongside totals.
+
+## FAQ
+
+**Can I use SUMIFS with wildcards?** Yes. Use `"*keyword*"` for contains logic or `"keyword*"` for starts with.
+
+**How do I convert to Google Sheets?** Toggle the generator to Sheets mode—it will translate structured references into A1 ranges and add `ARRAYFORMULA` when necessary.
+
+**What about blank criteria?** Wrap your criteria in `IF` to default to "All" when the control cell is empty.
+
+Ready for the next step? Visit the [XLOOKUP tutorial](/excel/xlookup-tutorial) or run a custom prompt in the [Excel formula generator](/#generator).

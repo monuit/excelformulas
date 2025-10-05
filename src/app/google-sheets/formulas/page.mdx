@@ -1,0 +1,40 @@
+export const metadata = {
+  title: "Google Sheets Formulas",
+  description:
+    "Level up Google Sheets automation with ARRAYFORMULA, FILTER, INDEX, and custom prompt ideas.",
+};
+
+# Google Sheets Formulas
+
+Google Sheets offers unique tricks—`ARRAYFORMULA`, `IMPORTRANGE`, and `GOOGLEFINANCE`—that Excel users envy. These prompts highlight how to blend them with modern dynamic array logic. Enter any prompt into the [AI Excel Formula Generator](/#generator) in **Sheets mode** to get a tested solution plus explanation.
+
+## Prompts to try
+
+1. Automate lead assignment using `ARRAYFORMULA`, `FILTER`, and `VLOOKUP`.
+2. Pull campaign spend from another workbook with `IMPORTRANGE` and tag each row with the connected Google Analytics medium.
+3. Build a rollover forecast that uses `SEQUENCE` and `INDEX` to project the next 12 months.
+4. Clean email captures by extracting the domain and flagging personal inboxes (gmail, yahoo, outlook).
+5. Create a dynamic validation dropdown that updates based on user role.
+6. Convert Excel `LET` formulas into Sheets-friendly versions using named functions.
+7. Combine `REGEXREPLACE` and `TEXTAFTER` to remove tracking parameters.
+8. Fetch stock prices and calculate 30-day moving averages with `GOOGLEFINANCE`.
+
+## Useful snippet
+
+```googlesheets
+=ARRAYFORMULA(IF(LEN(A2:A), PROPER(REGEXREPLACE(A2:A, "\\s+", " ")), ""))
+```
+
+## Integration ideas
+
+- Trigger Slack alerts with Apps Script when ARRAYFORMULA results meet thresholds.
+- Build Sheets dashboards that mirror Excel logic for distributed teams.
+- Use named functions to simulate LAMBDA behavior and keep formulas readable.
+
+## FAQ
+
+**How do I speed up large Sheets models?** Use `LET`, avoid full-column references when possible, and limit the number of volatile functions (`NOW`, `RAND`).
+
+**Can the AI generate Apps Script?** Yes—mention that you want a custom function, and it will provide script code alongside the formula.
+
+Explore more Excel-first techniques in the [array formulas guide](/excel/array-formulas) and see how the AI tool adapts them for Sheets automatically.

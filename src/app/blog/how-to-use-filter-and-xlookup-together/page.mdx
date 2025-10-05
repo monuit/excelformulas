@@ -1,0 +1,56 @@
+export const metadata = {
+  title: "How to Use FILTER and XLOOKUP Together",
+  description:
+    "Build dynamic Excel dashboards by combining FILTER and XLOOKUP. Includes prompt ideas for the AI Excel Formula Generator.",
+};
+
+# How to Use FILTER and XLOOKUP Together
+
+Excel power users love **FILTER** for dynamic ranges and **XLOOKUP** for flexible lookups. When you combine them, you can generate dashboards that adapt instantly to user selections—no helper tables required.
+
+## Core pattern
+
+```excel
+=FILTER(Data[Metric], XLOOKUP(B2, Data[Segment], Data[Segment]) = B2)
+```
+
+This simple example filters a table by the segment chosen in `B2`. To make it more robust:
+
+1. Wrap the lookup in `LET` so you can reuse values.
+2. Include `IFNA` to handle missing matches.
+3. Add sorting with `SORT` for cleaner outputs.
+
+## Advanced example
+
+```
+=LET(
+  selectedSegment, B2,
+  lookupVector, XLOOKUP(selectedSegment, Segments[Name], Segments[Name], ""),
+  FILTER(
+    Metrics,
+    (Metrics[Segment] = lookupVector) * (Metrics[Status] = "Active"),
+    "No active accounts"
+  )
+)
+```
+
+Need this tailored to your dataset? Paste the business context into the [AI Excel Formula Generator](/#generator) and mention the columns involved. The AI will adopt `FILTER`, `XLOOKUP`, `SORTBY`, or `TEXTSPLIT` as needed.
+
+## Prompt ideas
+
+- "FILTER quarterly revenue table for the region selected in D2, but default to all regions when the cell is blank."
+- "Use XLOOKUP and FILTER together to show only clients whose ARR is above the 75th percentile."
+- "Combine FILTER + XLOOKUP + SORT to return the top 10 opportunities for the rep in cell G5."
+- "Create a FILTER that references an XLOOKUP pulling the latest renewal date for each account." 
+
+## Google Sheets translation
+
+Most FILTER + XLOOKUP patterns translate cleanly into Google Sheets. Replace `LET` with `LET` (still supported) and, when necessary, wrap the output with `ARRAYFORMULA` to keep ranges dynamic. Our generator handles these conversions when you toggle to **Sheets mode**.
+
+## Troubleshooting tips
+
+- Ensure lookup columns are the same data type (text vs numbers).
+- Trim extra spaces using `TEXTBEFORE`, `TEXTAFTER`, or `CLEAN` functions before matching.
+- When you need multi-criteria lookups, use `CHOOSECOLS` with stacked arrays.
+
+Still stuck? Feed the dataset description to the AI tool and ask for a revision. It can even explain how the formula works so you can document it for your team.

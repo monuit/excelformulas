@@ -1,0 +1,43 @@
+export const metadata = {
+  title: "Array Formulas",
+  description:
+    "Harness dynamic array formulas in Excel and Google Sheets with examples using BYROW, MAP, REDUCE, and SCAN.",
+};
+
+# Array Formulas
+
+Dynamic arrays let you transform entire ranges without helper columns. This guide highlights **BYROW**, **MAP**, **SCAN**, **REDUCE**, `WRAPROWS`, and more. Paste the prompts into the [AI Excel Formula Generator](/#generator) to get dataset-specific formulas in seconds.
+
+## Prompts to experiment with
+
+1. Use `BYROW` to classify sentiment based on keywords in column `C`.
+2. Combine `MAP` and `LAMBDA` to standardize phone numbers across column `E`.
+3. Apply `SCAN` for cumulative revenue per month with a reset every fiscal year.
+4. Build a spill-safe pivot using `LET`, `UNIQUE`, and `MMULT`.
+5. Use `REDUCE` to create a running text summary of top deals.
+6. Normalize survey scores and return z-scores in a spilled range.
+7. Generate a two-dimensional array of KPIs by region and segment using `MAKEARRAY`.
+8. Stack multiple department budgets with `VSTACK` and add total rows using `WRAPROWS`.
+
+## Example formula
+
+```excel
+=LET(
+  scores, Scores[Value],
+  mean, AVERAGE(scores),
+  sd, STDEV.P(scores),
+  MAP(scores, LAMBDA(score, (score - mean) / sd))
+)
+```
+
+## Sheets translation
+
+Most array functions now exist in Google Sheets. When they don’t, the generator will emulate them with Apps Script-compatible formulas or BYROW/ARRAYFORMULA combinations.
+
+## FAQ
+
+**How do I avoid spill errors?** Clear cells to the right/below or wrap the array in `TAKE`/`CHOOSECOLS` to control dimensions.
+
+**Can array formulas be dynamic per user selection?** Yes. Reference slicer cells or dropdowns in your LAMBDA, or pair arrays with `FILTER` for interactive dashboards.
+
+Explore more with the [Google Sheets formulas guide](/google-sheets/formulas) or craft your own array solution via the [generator](/#generator).

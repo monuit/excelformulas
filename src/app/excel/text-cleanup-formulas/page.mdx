@@ -1,0 +1,50 @@
+export const metadata = {
+  title: "Text Cleanup Formulas",
+  description:
+    "Automate email, URL, and name cleanup in Excel and Google Sheets with advanced text formulas.",
+};
+
+# Text Cleanup Formulas
+
+Sales and marketing teams spend too much time cleaning data. These formulas remove duplicates, standardize casing, and extract domains automatically. Want a formula tailored to your CRM? Paste your request into the [AI Excel Formula Generator](/#generator).
+
+## Prompts to try
+
+1. Extract the domain from email addresses in column `C` and lowercase the result.
+2. Split full names in column `A` into first, middle, and last names while handling missing middle names.
+3. Convert freeform job titles to proper case but keep acronyms (e.g., CEO, VP) uppercase.
+4. Remove tracking parameters from URLs in column `F` and return a clean base link.
+5. Flag rows where the phone number format is invalid.
+6. Normalize product SKUs to `AAA-0000` format using `TEXT`, `UPPER`, and `TEXTSPLIT`.
+7. Extract hashtags from social captions and list them in separate cells.
+8. Strip special characters except hyphen and underscore.
+
+## Handy snippets
+
+```excel
+=LET(
+  email, C2,
+  domain, TEXTAFTER(email, "@"),
+  CLEAN(LOWER(domain))
+)
+```
+
+```excel
+=FILTER(
+  TEXTSPLIT(A2, " "),
+  LEN(TEXTSPLIT(A2, " ")) > 0
+)
+```
+
+## Sheets translation
+
+- Replace `CLEAN` with `REGEXREPLACE` for advanced patterns.
+- Use `ARRAYFORMULA` around text cleanup formulas to auto-fill new rows.
+
+## FAQ
+
+**How do I keep acronyms uppercase?** Use `MAP` to iterate over each word and conditionally apply `UPPER`.
+
+**Can I remove emoji?** Yes—combine `ENCODEURL`, `TEXTAFTER`, and `REGEXREPLACE`, or ask the generator for a custom LAMBDA.
+
+Next: explore [date functions](/excel/date-functions-guide) or generate your own cleanup routine with the [Excel AI tool](/#generator).

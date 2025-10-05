@@ -1,0 +1,51 @@
+export const metadata = {
+  title: "Date Functions Guide",
+  description:
+    "Calculate rolling windows, fiscal calendars, and time intelligence with modern Excel date functions.",
+};
+
+# Date Functions Guide
+
+Time intelligence powers revenue forecasts and cohort analysis. Here are formulas that combine `EOMONTH`, `EDATE`, `NETWORKDAYS`, and `SEQUENCE`. Need a custom variation? Ask the [Formula Generator](/#generator).
+
+## Prompts to start with
+
+1. Return the first and last day of the current quarter based on today’s date.
+2. Calculate the number of business days between `StartDate` and `EndDate`, excluding holidays listed in `Holidays!A:A`.
+3. Build a rolling 13-week revenue summary using `SCAN` and `SUM`.
+4. Flag contracts that expire within the next 45 days.
+5. Generate a fiscal calendar that starts in April and label each row with fiscal year and quarter.
+6. Create a sequence of month start dates for the next 12 months.
+7. Determine the aging bucket (0-30, 31-60, 61-90, 90+) for invoices.
+8. Calculate the difference between two timestamps in hours and minutes.
+
+## Helpful snippets
+
+```excel
+=LET(
+  startDate, TODAY(),
+  SEQUENCE(12, 1, startDate, 30)
+)
+```
+
+```excel
+=IFS(
+  days <= 30, "0-30",
+  days <= 60, "31-60",
+  days <= 90, "61-90",
+  TRUE, "90+"
+)
+```
+
+## Sheets-specific notes
+
+- Use `WORKDAY.INTL` for custom weekend schedules.
+- Wrap date outputs with `TO_TEXT` when creating dashboard labels.
+
+## FAQ
+
+**Can I calculate rolling quarters automatically?** Yes—use `EOMONTH` with offsets from `SEQUENCE`. The generator can build nested LET formulas to keep it tidy.
+
+**How do I support multiple time zones?** Combine `TEXT`, `TIME`, and `DATEVALUE`, or ask for a LAMBDA that standardizes timestamps before calculations.
+
+Continue learning with the [array formulas guide](/excel/array-formulas) or jump directly to the [AI Excel tool](/#generator).
