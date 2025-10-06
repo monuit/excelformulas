@@ -11,7 +11,7 @@ import { convertToUIMessages } from "@/lib/utils";
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const { id } = params;
-  
+
   const chat = await getChatById({ id }).catch((error) => {
     console.error("[Chat Page] Error fetching chat:", error);
     return null;

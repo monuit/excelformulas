@@ -226,7 +226,8 @@ export const seoFormula = pgTable("SeoFormula", {
   formula: text("formula").notNull(),
   explanation: text("explanation").notNull(),
   examples: jsonb("examples").$type<string[]>(),
-  alternatives: jsonb("alternatives").$type<{ formula: string; description: string }[]>(),
+  alternatives:
+    jsonb("alternatives").$type<{ formula: string; description: string }[]>(),
   category: varchar("category", { length: 50 }),
   views: json("views").$type<number>().default(0),
   blobUrl: text("blobUrl"),
