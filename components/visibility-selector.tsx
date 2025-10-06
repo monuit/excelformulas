@@ -1,6 +1,7 @@
 "use client";
 
 import { type ReactNode, useMemo, useState } from "react";
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -16,6 +17,7 @@ import {
   GlobeIcon,
   LockIcon,
 } from "./icons";
+import { toast } from "./toast";
 
 export type VisibilityType = "private" | "public";
 
@@ -90,6 +92,31 @@ export function VisibilitySelector({
             onSelect={() => {
               setVisibilityType(visibility.id);
               setOpen(false);
+
+              // Auto-copy URL and show toast when making public
+              if (visibility.id === "public") {
+                const chatUrl = `${window.location.origin}/chat/${chatId}`;
+                navigator.clipboard
+                  .writeText(chatUrl)
+                  .then(() => {
+                    toast({
+                      type: "success",
+                      description: `✅ Chat is now PUBLIC! Share link copied to clipboard: ${chatUrl}`,
+                    });
+                  })
+                  .catch(() => {
+                    toast({
+                      type: "success",
+                      description: `✅ Chat is now PUBLIC! Share this link: ${chatUrl}`,
+                    });
+                  });
+              } else {
+                toast({
+                  type: "success",
+                  description:
+                    "🔒 Chat is now PRIVATE. Only you can access it.",
+                });
+              }
             }}
           >
             <div className="flex flex-col items-start gap-1">

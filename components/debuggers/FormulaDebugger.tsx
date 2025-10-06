@@ -7,9 +7,9 @@ import { useEffect, useRef, useState } from "react";
 import type { ChatMessage } from "@/lib/types";
 import { fetchWithErrorHandlers, generateUUID } from "@/lib/utils";
 
-interface FormulaDebuggerProps {
+type FormulaDebuggerProps = {
   isPremium: boolean;
-}
+};
 
 export function FormulaDebugger({ isPremium }: FormulaDebuggerProps) {
   const [input, setInput] = useState("");
@@ -26,11 +26,13 @@ export function FormulaDebugger({ isPremium }: FormulaDebuggerProps) {
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!input.trim() || status === "streaming") return;
+    if (!input.trim() || status === "streaming") {
+      return;
+    }
 
     if (!isPremium) {
       alert("This is a premium feature. Please support us on Ko-fi to unlock!");

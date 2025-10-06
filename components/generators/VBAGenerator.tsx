@@ -4,9 +4,9 @@ import { useCompletion } from "@ai-sdk/react";
 import { Lock } from "lucide-react";
 import { type FormEvent, useState } from "react";
 
-interface VBAGeneratorProps {
+type VBAGeneratorProps = {
   isPremium: boolean;
-}
+};
 
 export function VBAGenerator({ isPremium }: VBAGeneratorProps) {
   const [prompt, setPrompt] = useState("");
@@ -22,7 +22,9 @@ export function VBAGenerator({ isPremium }: VBAGeneratorProps) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!prompt.trim() || isLoading) return;
+    if (!prompt.trim() || isLoading) {
+      return;
+    }
 
     if (!isPremium) {
       alert("This is a premium feature. Please support us on Ko-fi to unlock!");

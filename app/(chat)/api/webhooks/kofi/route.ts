@@ -7,7 +7,7 @@ import {
 
 export const maxDuration = 30;
 
-interface KofiWebhookData {
+type KofiWebhookData = {
   verification_token: string;
   message_id: string;
   timestamp: string;
@@ -27,7 +27,7 @@ interface KofiWebhookData {
   shipping: any;
   discord_username?: string;
   discord_userid?: string;
-}
+};
 
 export async function POST(request: Request) {
   try {

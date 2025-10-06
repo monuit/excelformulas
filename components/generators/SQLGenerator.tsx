@@ -4,9 +4,9 @@ import { useCompletion } from "@ai-sdk/react";
 import { Database, Lock } from "lucide-react";
 import { type FormEvent, useState } from "react";
 
-interface SQLGeneratorProps {
+type SQLGeneratorProps = {
   isPremium: boolean;
-}
+};
 
 export function SQLGenerator({ isPremium }: SQLGeneratorProps) {
   const [prompt, setPrompt] = useState("");
@@ -26,7 +26,9 @@ export function SQLGenerator({ isPremium }: SQLGeneratorProps) {
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    if (!prompt.trim() || isLoading) return;
+    if (!prompt.trim() || isLoading) {
+      return;
+    }
 
     if (!isPremium) {
       alert("This is a premium feature. Please support us on Ko-fi to unlock!");

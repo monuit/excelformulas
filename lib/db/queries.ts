@@ -211,7 +211,9 @@ export async function getChatById({ id }: { id: string }) {
     }
 
     return selectedChat;
-  } catch (_error) {
+  } catch (error) {
+    console.error("[getChatById] Database error:", error);
+    console.error("[getChatById] Chat ID:", id);
     throw new ChatSDKError("bad_request:database", "Failed to get chat by id");
   }
 }
@@ -621,10 +623,9 @@ export async function getPremiumUser(
       .where(eq(premiumUser.userId, userId));
     return result;
   } catch (_error) {
-    throw new ChatSDKError(
-      "bad_request:database",
-      "Failed to get premium user"
-    );
+    // Return undefined if query fails or table doesn't exist yet
+    console.error("Error fetching premium user:", _error);
+    return;
   }
 }
 
@@ -681,9 +682,15 @@ export async function isPremiumUser(userId: string): Promise<boolean> {
   try {
     const premium = await getPremiumUser(userId);
 
-    if (!premium) return false;
-    if (premium.lifetimeAccess) return true;
-    if (!premium.isPremium) return false;
+    if (!premium) {
+      return false;
+    }
+    if (premium.lifetimeAccess) {
+      return true;
+    }
+    if (!premium.isPremium) {
+      return false;
+    }
 
     if (premium.subscriptionActive && premium.subscriptionExpiresAt) {
       return new Date() < new Date(premium.subscriptionExpiresAt);
@@ -691,9 +698,8 @@ export async function isPremiumUser(userId: string): Promise<boolean> {
 
     return premium.isPremium;
   } catch (_error) {
-    throw new ChatSDKError(
-      "bad_request:database",
-      "Failed to check if user is premium"
-    );
+    // If there's a database error, default to non-premium
+    console.error("Error checking premium status:", _error);
+    return false;
   }
 }

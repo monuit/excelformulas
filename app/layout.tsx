@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { Toaster } from "sonner";
-import { KofiButton } from "@/components/kofi-button";
-import { ThemeProvider } from "@/components/theme-provider";
-
-import "./globals.css";
 import { SessionProvider } from "next-auth/react";
+import { Toaster } from "sonner";
+
+import { ThemeProvider } from "@/components/theme-provider";
+import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://excelformula.xyz"),
@@ -66,6 +65,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
+        <meta name="darkreader-lock" />
         <script
           // biome-ignore lint/security/noDangerouslySetInnerHtml: "Required"
           dangerouslySetInnerHTML={{
@@ -73,7 +73,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased" suppressHydrationWarning>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -82,9 +82,6 @@ export default function RootLayout({
         >
           <Toaster position="top-center" />
           <SessionProvider>{children}</SessionProvider>
-          <div className="fixed top-20 right-4 z-40 md:top-4">
-            <KofiButton />
-          </div>
         </ThemeProvider>
       </body>
     </html>

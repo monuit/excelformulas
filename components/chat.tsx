@@ -41,6 +41,7 @@ export function Chat({
   isReadonly,
   autoResume,
   initialLastContext,
+  initialPrompt,
 }: {
   id: string;
   initialMessages: ChatMessage[];
@@ -49,6 +50,7 @@ export function Chat({
   isReadonly: boolean;
   autoResume: boolean;
   initialLastContext?: AppUsage;
+  initialPrompt?: string;
 }) {
   const { visibilityType } = useChatVisibility({
     chatId: id,
@@ -58,7 +60,7 @@ export function Chat({
   const { mutate } = useSWRConfig();
   const { setDataStream } = useDataStream();
 
-  const [input, setInput] = useState<string>("");
+  const [input, setInput] = useState<string>(initialPrompt || "");
   const [usage, setUsage] = useState<AppUsage | undefined>(initialLastContext);
   const [showCreditCardAlert, setShowCreditCardAlert] = useState(false);
   const [currentModelId, setCurrentModelId] = useState(initialChatModel);
@@ -126,6 +128,8 @@ export function Chat({
   const query = searchParams.get("query");
 
   const [hasAppendedQuery, setHasAppendedQuery] = useState(false);
+  const [hasSubmittedInitialPrompt, setHasSubmittedInitialPrompt] =
+    useState(false);
 
   useEffect(() => {
     if (query && !hasAppendedQuery) {
@@ -138,6 +142,17 @@ export function Chat({
       window.history.replaceState({}, "", `/chat/${id}`);
     }
   }, [query, sendMessage, hasAppendedQuery, id]);
+
+  // Auto-submit when initialPrompt is provided
+  useEffect(() => {
+    if (initialPrompt && !hasSubmittedInitialPrompt && messages.length === 0) {
+      sendMessage({
+        role: "user" as const,
+        parts: [{ type: "text", text: initialPrompt }],
+      });
+      setHasSubmittedInitialPrompt(true);
+    }
+  }, [initialPrompt, sendMessage, hasSubmittedInitialPrompt, messages.length]);
 
   const { data: votes } = useSWR<Vote[]>(
     messages.length >= 2 ? `/api/vote?chatId=${id}` : null,

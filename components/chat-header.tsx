@@ -1,6 +1,6 @@
 "use client";
 
-import { BugIcon, CodeIcon, PlusIcon } from "lucide-react";
+import { BugIcon, CodeIcon, HomeIcon, PlusIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { memo } from "react";
@@ -47,6 +47,12 @@ function PureChatHeader({
         )}
 
         <div className="ml-auto flex items-center gap-2">
+          <Link href="/">
+            <Button className="hidden md:flex" size="sm" variant="ghost">
+              <HomeIcon className="mr-2 size-4" />
+              Home
+            </Button>
+          </Link>
           <Link href="/generators">
             <Button className="hidden md:flex" size="sm" variant="ghost">
               <CodeIcon className="mr-2 size-4" />

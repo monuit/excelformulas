@@ -217,3 +217,21 @@ export const premiumUser = pgTable("PremiumUser", {
 });
 
 export type PremiumUser = InferSelectModel<typeof premiumUser>;
+
+export const seoFormula = pgTable("SeoFormula", {
+  id: uuid("id").primaryKey().notNull().defaultRandom(),
+  slug: varchar("slug", { length: 100 }).notNull().unique(),
+  queryHash: varchar("queryHash", { length: 32 }).notNull().unique(),
+  query: text("query").notNull(),
+  formula: text("formula").notNull(),
+  explanation: text("explanation").notNull(),
+  examples: jsonb("examples").$type<string[]>(),
+  alternatives: jsonb("alternatives").$type<{ formula: string; description: string }[]>(),
+  category: varchar("category", { length: 50 }),
+  views: json("views").$type<number>().default(0),
+  blobUrl: text("blobUrl"),
+  createdAt: timestamp("createdAt").notNull().defaultNow(),
+  updatedAt: timestamp("updatedAt").notNull().defaultNow(),
+});
+
+export type SeoFormula = InferSelectModel<typeof seoFormula>;

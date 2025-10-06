@@ -1,12 +1,17 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
+import { auth } from "@/app/(auth)/auth";
 import { Chat } from "@/components/chat";
 import { DataStreamHandler } from "@/components/data-stream-handler";
 import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
 import { generateUUID } from "@/lib/utils";
-import { auth } from "../(auth)/auth";
 
-export default async function Page() {
+export default async function Page({
+  searchParams,
+}: {
+  searchParams: Promise<{ prompt?: string }>;
+}) {
   const session = await auth();
 
   if (!session) {
@@ -14,6 +19,8 @@ export default async function Page() {
   }
 
   const id = generateUUID();
+  const params = await searchParams;
+  const initialPrompt = params.prompt;
 
   const cookieStore = await cookies();
   const modelIdFromCookie = cookieStore.get("chat-model");
@@ -26,6 +33,7 @@ export default async function Page() {
           id={id}
           initialChatModel={DEFAULT_CHAT_MODEL}
           initialMessages={[]}
+          initialPrompt={initialPrompt}
           initialVisibilityType="private"
           isReadonly={false}
           key={id}
@@ -42,6 +50,7 @@ export default async function Page() {
         id={id}
         initialChatModel={modelIdFromCookie.value}
         initialMessages={[]}
+        initialPrompt={initialPrompt}
         initialVisibilityType="private"
         isReadonly={false}
         key={id}

@@ -15,29 +15,61 @@ type WeatherData = {
 };
 
 const getWeatherDescription = (code: number | undefined): string => {
-  if (!code) return "";
+  if (!code) {
+    return "";
+  }
 
   // WMO Weather interpretation codes
-  if (code === 0) return "Clear";
-  if (code <= 3) return "Partly Cloudy";
-  if (code <= 48) return "Foggy";
-  if (code <= 67) return "Rainy";
-  if (code <= 77) return "Snowy";
-  if (code <= 82) return "Showers";
-  if (code <= 99) return "Thunderstorm";
+  if (code === 0) {
+    return "Clear";
+  }
+  if (code <= 3) {
+    return "Partly Cloudy";
+  }
+  if (code <= 48) {
+    return "Foggy";
+  }
+  if (code <= 67) {
+    return "Rainy";
+  }
+  if (code <= 77) {
+    return "Snowy";
+  }
+  if (code <= 82) {
+    return "Showers";
+  }
+  if (code <= 99) {
+    return "Thunderstorm";
+  }
   return "Unknown";
 };
 
 const getWeatherEmoji = (code: number | undefined): string => {
-  if (!code) return "🌡️";
+  if (!code) {
+    return "🌡️";
+  }
 
-  if (code === 0) return "☀️";
-  if (code <= 3) return "⛅";
-  if (code <= 48) return "🌫️";
-  if (code <= 67) return "🌧️";
-  if (code <= 77) return "❄️";
-  if (code <= 82) return "🌦️";
-  if (code <= 99) return "⛈️";
+  if (code === 0) {
+    return "☀️";
+  }
+  if (code <= 3) {
+    return "⛅";
+  }
+  if (code <= 48) {
+    return "🌫️";
+  }
+  if (code <= 67) {
+    return "🌧️";
+  }
+  if (code <= 77) {
+    return "❄️";
+  }
+  if (code <= 82) {
+    return "🌦️";
+  }
+  if (code <= 99) {
+    return "⛈️";
+  }
   return "🌡️";
 };
 

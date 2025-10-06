@@ -28,7 +28,13 @@ export const myProvider = isTestEnvironment
       languageModels: {
         // Grok for simple queries (default chat model)
         "chat-model": gateway.languageModel("xai/grok-2-vision-1212"),
+        // GPT-5-nano as primary reasoning model
         "chat-model-reasoning": wrapLanguageModel({
+          model: gateway.languageModel("openai/gpt-5-nano"),
+          middleware: extractReasoningMiddleware({ tagName: "think" }),
+        }),
+        // Grok as secondary reasoning model
+        "chat-model-reasoning-grok": wrapLanguageModel({
           model: gateway.languageModel("xai/grok-3-mini"),
           middleware: extractReasoningMiddleware({ tagName: "think" }),
         }),
@@ -36,5 +42,7 @@ export const myProvider = isTestEnvironment
         "artifact-model": gateway.languageModel("xai/grok-2-1212"),
         // GPT-4o Mini for complex queries
         "gpt-4o-mini": gateway.languageModel("openai/gpt-4o-mini"),
+        // GPT-5-nano as standalone model
+        "gpt-5-nano": gateway.languageModel("openai/gpt-5-nano"),
       },
     });

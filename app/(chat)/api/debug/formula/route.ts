@@ -11,7 +11,6 @@ import { selectModelByComplexity } from "@/lib/ai/model-selector";
 import { myProvider } from "@/lib/ai/providers";
 import { isProductionEnvironment } from "@/lib/constants";
 import { isPremiumUser } from "@/lib/db/queries";
-import type { ChatMessage } from "@/lib/types";
 import { generateUUID } from "@/lib/utils";
 
 export const maxDuration = 60;
