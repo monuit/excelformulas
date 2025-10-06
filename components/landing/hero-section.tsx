@@ -155,7 +155,7 @@ export function HeroSection() {
 
           {/* Floating badge - "Data Science" style */}
           <div className="absolute -bottom-4 -right-4 rounded-xl border border-gray-200 bg-blue-500 px-6 py-3 shadow-lg">
-            <p className="font-semibold text-sm text-white">
+            <p className="font-semibold text-white text-sm">
               ⚡ Instant Results
             </p>
           </div>

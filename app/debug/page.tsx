@@ -80,7 +80,7 @@ export default function DebugPage() {
               </Button>
             )}
             {hasPremium && (
-              <span className="flex items-center gap-2 text-sm font-medium text-green-600">
+              <span className="flex items-center gap-2 font-medium text-green-600 text-sm">
                 <CheckCircleIcon className="size-4" />
                 Premium
               </span>
