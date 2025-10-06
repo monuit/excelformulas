@@ -42,14 +42,35 @@ type KofiWebhookData = {
   discord_userid?: string;
 };
 
+// GET handler for webhook verification
+export function GET() {
+  console.log("[Ko-fi Webhook] GET request received (verification)");
+  return NextResponse.json({
+    message: "Ko-fi webhook endpoint is active",
+    endpoint: "/api/webhook/kofi",
+    method: "POST",
+    contentType: "application/x-www-form-urlencoded",
+    timestamp: new Date().toISOString(),
+  });
+}
+
 export async function POST(request: NextRequest) {
+  console.log("[Ko-fi Webhook] POST request received");
+  
   try {
+    // Log request details
+    console.log("[Ko-fi Webhook] Content-Type:", request.headers.get("content-type"));
+    console.log("[Ko-fi Webhook] User-Agent:", request.headers.get("user-agent"));
+    
     // Parse form data
     const formData = await request.formData();
+    console.log("[Ko-fi Webhook] FormData keys:", Array.from(formData.keys()));
+    
     const dataString = formData.get("data") as string;
 
     if (!dataString) {
       console.error("[Ko-fi Webhook] Missing data field");
+      console.error("[Ko-fi Webhook] Available fields:", Array.from(formData.entries()));
       return NextResponse.json(
         { error: "Missing data field" },
         { status: 400 }

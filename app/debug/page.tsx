@@ -1,6 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { BugIcon, CheckCircleIcon, CodeIcon, SparklesIcon, TableIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FormulaDebugger } from "@/components/debuggers/FormulaDebugger";
 import { VBADebugger } from "@/components/debuggers/VBADebugger";
@@ -14,7 +15,6 @@ import {
 } from "@/components/ui/dialog";
 
 export default function DebugPage() {
-  const router = useRouter();
   const [hasPremium, setHasPremium] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isKofiOpen, setIsKofiOpen] = useState(false);
@@ -34,47 +34,60 @@ export default function DebugPage() {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex min-h-screen items-center justify-center bg-white">
         <div className="h-8 w-8 animate-spin rounded-full border-blue-600 border-t-2 border-b-2" />
       </div>
     );
   }
 
   return (
-    <div className="flex h-screen flex-col bg-background">
-      {/* Header */}
-      <div className="border-b bg-background">
-        <div className="flex h-14 items-center justify-between px-4">
+    <div className="min-h-screen bg-white">
+      {/* Navigation */}
+      <nav className="fixed top-0 z-50 w-full border-gray-200 border-b bg-white/80 backdrop-blur-md">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <Link className="flex items-center gap-2" href="/">
+            <TableIcon className="size-6 text-blue-600" />
+            <span className="font-bold text-gray-900 text-xl">
+              ExcelFormula.xyz
+            </span>
+          </Link>
           <div className="flex items-center gap-4">
-            <Button onClick={() => router.push("/")} size="sm" variant="ghost">
-              ← Home
-            </Button>
-            <h1 className="font-semibold text-xl">Debug Tools</h1>
-          </div>
-          <div className="flex items-center gap-2">
+            <Link href="/chat">
+              <Button className="hidden text-gray-700 md:flex" size="sm" variant="ghost">
+                <SparklesIcon className="mr-2 size-4" />
+                Chat
+              </Button>
+            </Link>
+            <Link href="/generators">
+              <Button className="hidden text-gray-700 md:flex" size="sm" variant="ghost">
+                <CodeIcon className="mr-2 size-4" />
+                Generators
+              </Button>
+            </Link>
+            <Link href="/debug">
+              <Button className="text-blue-600" size="sm" variant="ghost">
+                <BugIcon className="mr-2 size-4" />
+                Debuggers
+              </Button>
+            </Link>
             {!hasPremium && (
-              <>
-                <span className="hidden text-muted-foreground text-sm sm:inline">
-                  Unlock premium debuggers
-                </span>
-                <Button
-                  className="bg-gradient-to-r from-blue-600 to-purple-600"
-                  onClick={() => setIsKofiOpen(true)}
-                  size="sm"
-                >
-                  🎁 Get Premium
-                </Button>
-              </>
+              <Button
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700"
+                onClick={() => setIsKofiOpen(true)}
+                size="sm"
+              >
+                🎁 Premium
+              </Button>
             )}
             {hasPremium && (
-              <span className="flex items-center gap-2 text-muted-foreground text-sm">
-                <span className="text-green-600">✓</span>
-                Premium Active
+              <span className="flex items-center gap-2 text-sm font-medium text-green-600">
+                <CheckCircleIcon className="size-4" />
+                Premium
               </span>
             )}
           </div>
         </div>
-      </div>
+      </nav>
 
       {/* Ko-fi Dialog */}
       <Dialog onOpenChange={setIsKofiOpen} open={isKofiOpen}>
@@ -82,8 +95,8 @@ export default function DebugPage() {
           <DialogHeader>
             <DialogTitle>Unlock Premium Debugging Tools</DialogTitle>
             <DialogDescription>
-              Support us with a $5+ Ko-fi donation to get lifetime access to all
-              debugging features.
+              Support us with a Ko-fi donation to get access to all
+              debugging features. Choose any amount that works for you!
             </DialogDescription>
           </DialogHeader>
           <div className="mt-4">
@@ -102,93 +115,124 @@ export default function DebugPage() {
         </DialogContent>
       </Dialog>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto p-4">
-        {/* Debuggers Grid */}
-        <div className="grid animate-slide-in gap-8 lg:grid-cols-2">
-          <VBADebugger isPremium={hasPremium} />
-          <FormulaDebugger isPremium={hasPremium} />
-        </div>
-
-        {/* Premium Thank You Message */}
-        {hasPremium && (
-          <div className="glass-strong glow mt-12 animate-fade-in border-accent/30 p-8 text-center">
-            <p className="gradient-text font-semibold text-xl">
-              ✨ Thank you for your support! You have full access to all
-              debugging features.
+      {/* Hero Section */}
+      <section className="border-gray-200 border-b bg-gradient-to-br from-gray-50 to-white px-4 pt-28 pb-16">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <h1 className="mb-6 font-bold text-5xl text-gray-900 leading-tight md:text-6xl">
+              AI-Powered Debug Tools
+            </h1>
+            <p className="mx-auto mb-8 max-w-2xl text-gray-600 text-xl leading-relaxed">
+              Fix VBA macros and Excel formulas instantly. Get detailed explanations,
+              error fixes, and optimization suggestions powered by AI.
             </p>
+            {!hasPremium && (
+              <Button
+                className="h-12 bg-gradient-to-r from-blue-600 to-purple-600 px-8 text-base hover:from-blue-700 hover:to-purple-700"
+                onClick={() => setIsKofiOpen(true)}
+                size="lg"
+              >
+                🎁 Unlock Premium Features
+              </Button>
+            )}
           </div>
-        )}
+        </div>
+      </section>
 
-        {/* Usage Guide */}
-        <div className="glass card-hover mt-16 p-10">
-          <h2 className="gradient-text-blue mb-8 text-center font-bold text-3xl">
-            How to Use the Debuggers
-          </h2>
-          <div className="grid gap-8 md:grid-cols-2">
-            <div className="space-y-4">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-orange-500/20">
-                  <span className="text-2xl">🐛</span>
-                </div>
-                <h3 className="font-semibold text-foreground text-xl">
-                  VBA Debugger
-                </h3>
+      {/* Main Content */}
+      <div className="px-4 py-16">
+        <div className="mx-auto max-w-7xl">
+          {/* Premium Thank You Banner */}
+          {hasPremium && (
+            <div className="mb-12 rounded-2xl border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-6 text-center">
+              <div className="flex items-center justify-center gap-3">
+                <CheckCircleIcon className="size-6 text-green-600" />
+                <p className="font-semibold text-gray-900 text-lg">
+                  Thank you for your support! You have full access to all debugging features.
+                </p>
               </div>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Paste your VBA macro code</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Describe runtime or compile errors</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Ask for code explanations</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Request optimization suggestions</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Get step-by-step breakdowns</span>
-                </li>
-              </ul>
             </div>
-            <div className="space-y-4">
-              <div className="mb-4 flex items-center gap-3">
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-yellow-500/20">
-                  <span className="text-2xl">⚠️</span>
+          )}
+
+          {/* Debuggers Grid */}
+          <div className="mb-16 grid gap-8 lg:grid-cols-2">
+            <VBADebugger isPremium={hasPremium} />
+            <FormulaDebugger isPremium={hasPremium} />
+          </div>
+
+          {/* How to Use Section */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-8 shadow-sm md:p-12">
+            <h2 className="mb-12 text-center font-bold text-3xl text-gray-900 md:text-4xl">
+              How to Use the Debuggers
+            </h2>
+            <div className="grid gap-12 md:grid-cols-2">
+              {/* VBA Debugger Guide */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="flex size-14 items-center justify-center rounded-xl bg-orange-100">
+                    <BugIcon className="size-7 text-orange-600" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900">
+                    VBA Debugger
+                  </h3>
                 </div>
-                <h3 className="font-semibold text-foreground text-xl">
-                  Formula Debugger
-                </h3>
+                <ul className="space-y-4 text-gray-600">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Paste your VBA macro code for analysis</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Get help with runtime or compile errors</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Request detailed code explanations</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Receive optimization suggestions</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Get step-by-step execution breakdowns</span>
+                  </li>
+                </ul>
               </div>
-              <ul className="space-y-3 text-muted-foreground">
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Paste formulas with errors</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Get help with #REF!, #VALUE! errors</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Understand complex nested formulas</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Learn about function alternatives</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="text-accent">▸</span>
-                  <span>Optimize slow-running formulas</span>
-                </li>
-              </ul>
+
+              {/* Formula Debugger Guide */}
+              <div className="space-y-6">
+                <div className="flex items-center gap-4">
+                  <div className="flex size-14 items-center justify-center rounded-xl bg-yellow-100">
+                    <SparklesIcon className="size-7 text-yellow-600" />
+                  </div>
+                  <h3 className="text-2xl font-semibold text-gray-900">
+                    Formula Debugger
+                  </h3>
+                </div>
+                <ul className="space-y-4 text-gray-600">
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Paste Excel formulas with errors</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Fix #REF!, #VALUE!, and other error types</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Understand complex nested formulas</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Discover alternative function approaches</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <span className="mt-1 text-blue-600">✓</span>
+                    <span>Optimize slow-running calculations</span>
+                  </li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
