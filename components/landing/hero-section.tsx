@@ -40,8 +40,8 @@ export function HeroSection() {
           <h1 className="font-bold text-5xl text-gray-900 leading-tight tracking-tight md:text-6xl lg:text-7xl">
             Build Excel formulas.
             <br />
-            Ask anything. Get results{" "}
-            <span className="italic">10x faster</span>.
+            Ask anything. Get results <span className="italic">10x faster</span>
+            .
           </h1>
 
           {/* Subheadline */}
@@ -154,8 +154,8 @@ export function HeroSection() {
           </div>
 
           {/* Floating badge - "Data Science" style */}
-          <div className="absolute -bottom-4 -right-4 rounded-xl border border-gray-200 bg-blue-500 px-6 py-3 shadow-lg">
-            <p className="font-semibold text-white text-sm">
+          <div className="-bottom-4 -right-4 absolute rounded-xl border border-gray-200 bg-blue-500 px-6 py-3 shadow-lg">
+            <p className="font-semibold text-sm text-white">
               ⚡ Instant Results
             </p>
           </div>

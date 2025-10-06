@@ -1,6 +1,12 @@
 "use client";
 
-import { BugIcon, CheckCircleIcon, CodeIcon, SparklesIcon, TableIcon } from "lucide-react";
+import {
+  BugIcon,
+  CheckCircleIcon,
+  CodeIcon,
+  SparklesIcon,
+  TableIcon,
+} from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { FormulaDebugger } from "@/components/debuggers/FormulaDebugger";
@@ -53,13 +59,21 @@ export default function DebugPage() {
           </Link>
           <div className="flex items-center gap-4">
             <Link href="/chat">
-              <Button className="hidden text-gray-700 md:flex" size="sm" variant="ghost">
+              <Button
+                className="hidden text-gray-700 md:flex"
+                size="sm"
+                variant="ghost"
+              >
                 <SparklesIcon className="mr-2 size-4" />
                 Chat
               </Button>
             </Link>
             <Link href="/generators">
-              <Button className="hidden text-gray-700 md:flex" size="sm" variant="ghost">
+              <Button
+                className="hidden text-gray-700 md:flex"
+                size="sm"
+                variant="ghost"
+              >
                 <CodeIcon className="mr-2 size-4" />
                 Generators
               </Button>
@@ -95,8 +109,8 @@ export default function DebugPage() {
           <DialogHeader>
             <DialogTitle>Unlock Premium Debugging Tools</DialogTitle>
             <DialogDescription>
-              Support us with a Ko-fi donation to get access to all
-              debugging features. Choose any amount that works for you!
+              Support us with a Ko-fi donation to get access to all debugging
+              features. Choose any amount that works for you!
             </DialogDescription>
           </DialogHeader>
           <div className="mt-4">
@@ -123,8 +137,9 @@ export default function DebugPage() {
               AI-Powered Debug Tools
             </h1>
             <p className="mx-auto mb-8 max-w-2xl text-gray-600 text-xl leading-relaxed">
-              Fix VBA macros and Excel formulas instantly. Get detailed explanations,
-              error fixes, and optimization suggestions powered by AI.
+              Fix VBA macros and Excel formulas instantly. Get detailed
+              explanations, error fixes, and optimization suggestions powered by
+              AI.
             </p>
             {!hasPremium && (
               <Button
@@ -148,7 +163,8 @@ export default function DebugPage() {
               <div className="flex items-center justify-center gap-3">
                 <CheckCircleIcon className="size-6 text-green-600" />
                 <p className="font-semibold text-gray-900 text-lg">
-                  Thank you for your support! You have full access to all debugging features.
+                  Thank you for your support! You have full access to all
+                  debugging features.
                 </p>
               </div>
             </div>
@@ -172,7 +188,7 @@ export default function DebugPage() {
                   <div className="flex size-14 items-center justify-center rounded-xl bg-orange-100">
                     <BugIcon className="size-7 text-orange-600" />
                   </div>
-                  <h3 className="text-2xl font-semibold text-gray-900">
+                  <h3 className="font-semibold text-2xl text-gray-900">
                     VBA Debugger
                   </h3>
                 </div>
@@ -206,7 +222,7 @@ export default function DebugPage() {
                   <div className="flex size-14 items-center justify-center rounded-xl bg-yellow-100">
                     <SparklesIcon className="size-7 text-yellow-600" />
                   </div>
-                  <h3 className="text-2xl font-semibold text-gray-900">
+                  <h3 className="font-semibold text-2xl text-gray-900">
                     Formula Debugger
                   </h3>
                 </div>
