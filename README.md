@@ -1,9 +1,4 @@
-<div align="center">
-  <img alt="ExcelFormula.xyz - AI-Powered Excel Formula Assistant" src="app/(chat)/opengraph-image.png" width="100%">
-  <h1>📊 ExcelFormula.xyz</h1>
-  <p><strong>AI-Powered Excel Formula Assistant</strong></p>
-  <p>Get instant, accurate Excel formulas with AI. No explanations, no fluff—just the formula you need.</p>
-</div>
+
 
 <p align="center">
   <a href="https://excelformula.xyz"><strong>Live Demo</strong></a> ·
